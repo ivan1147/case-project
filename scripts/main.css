@@ -1,0 +1,126 @@
+#searchEvent
+{
+	background:url(/emax/resources/glyphicons_free/glyphicons/png/glyphicons-28-search.png) right no-repeat;
+	background-size: 15px 15px;
+	background-color: #ffffffff;
+}
+
+#img_container 
+{
+	position:relative;
+	display:inline-block;
+	text-align:center;
+}
+
+#buttonCompetition 
+{
+	position:absolute;
+	bottom:250px;
+	right:435px;
+	width:200px;
+	height:50px;
+	font-size: 20px;
+	vertical-align: middle;
+}
+
+
+#listCompetition 
+{
+	background-color: rgba(255,255,255,0.5);
+	position:absolute;
+	bottom:0px;
+	right:30px;
+	width:1050px;
+	height:50px;
+	font-size: 20px;
+	vertical-align: middle;
+}
+
+#list-item-highlight
+{
+	text-decoration: none;
+}
+
+.list-item:hover
+{
+	background-color: #007bff;
+	color: #ffffff;
+}
+
+#elementWallpaper
+{
+	height: 400px;
+}
+
+#noDecoration
+{
+	text-decoration: none
+}
+
+#imageCard
+{
+	height:230px;
+}
+
+#fontBlack
+{	
+	color: #000000;
+}
+
+#fontWhite
+{
+	color: #ffffff;
+}
+
+#operationHeader
+{
+	width: 250px;
+}
+
+#viewButton
+{
+	width: 55px;
+}
+
+#updateButton
+{
+	width: 75px;
+}
+
+#deleteButton
+{
+	width: 70px;
+}
+
+#createItem
+{
+	height: 37px;
+}
+
+#jumbotronBackground
+{	
+	background-color: #007bff;
+}
+
+#triviaImage
+{
+	width: 64px; 
+	height: 64px;
+}
+
+#dropdownOption
+{
+	width: 40px; 
+	height: 30px
+}
+
+#textArea
+{
+	resize: none;
+}
+
+#jumbotronHome
+{
+	height: 337px
+}
+
