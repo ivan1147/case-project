@@ -32,6 +32,7 @@
 							<th>Start Date</th>
 							<th>End Date</th>
 							<th>Status</th>
+							<th>Display</th>
 							<th>Created On</th>
 							<th id="operationHeader">Operation</th>
 						  </tr>
@@ -39,10 +40,11 @@
 						<tbody>
 						  <tr>
 							<td>1</td>
-							<td>10-14 Age Category</td>
+							<td>10-14 Age</td>
 							<td>2017-11-21</td>
 							<td>2017-11-28</td>
 							<td>Ongoing</td>
+							<td>Yes</td>
 							<td>2017-10-24 23:11:05</td>
 							<td>
 								<a id="viewButton" href="<?php echo 'competition_form_manage.php' ?>" class="btn btn-secondary col-xl-4 text-center">View</a>
@@ -54,10 +56,11 @@
 						<tbody>
 						  <tr>
 							<td>2</td>
-							<td>15-16 Age Category</td>
+							<td>15-16 Age</td>
 							<td>2017-11-29</td>
 							<td>2017-12-06</td>
 							<td>Available</td>
+							<td>Yes</td>
 							<td>2017-10-24 12:00:45</td>
 							<td>
 								<a id="viewButton" href="<?php echo '' ?>" class="btn btn-secondary col-xl-4">View</a>
@@ -69,10 +72,11 @@
 						<tbody>
 						  <tr>
 							<td>3</td>
-							<td>17-18 Age Category</td>
+							<td>17-18 Age</td>
 							<td>2017-12-07</td>
 							<td>2017-12-14</td>
 							<td>Available</td>
+							<td>No</td>
 							<td>2017-10-24 11:04:09</td>
 							<td>
 								<a id="viewButton" href="<?php echo '' ?>" class="btn btn-secondary col-xl-4">View</a>

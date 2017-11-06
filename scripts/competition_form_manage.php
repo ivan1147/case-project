@@ -13,12 +13,12 @@
 		<!--Card-->
 		<div class="container">
 			
-			<h1> 10-14 Age Category</h1>
+			<h1> 10-14 Age</h1>
 			
 			<ul class="breadcrumb">
 			  <li class="breadcrumb-item"><a href="<?php echo 'home.php' ?>">Home</a></li>
 			  <li class="breadcrumb-item"><a href="<?php echo 'competition_manage.php' ?>">Manage Competition</a></li>
-			  <li class="breadcrumb-item active">10-14 Age Category</li>
+			  <li class="breadcrumb-item active">10-14 Age</li>
 			</ul>
 			
 			

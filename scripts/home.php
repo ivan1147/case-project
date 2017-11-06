@@ -7,7 +7,7 @@
 	<div class="container">
 		
 		<!--Navigation Bar-->
-		<?php include "navigation.php"?>
+		<?php include "navigation.php";?>
 		
 		
 		

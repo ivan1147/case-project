@@ -34,6 +34,7 @@
 					<div id="collapseOne" class="collapse show">
 					  <div class="card-body">
 						<p class="card-text">Discuss about Asia Concert</p>
+						<p class="card-text">Views: 20</p>
 						<a href="<?php echo 'discussion_topic.php' ?>" class="btn btn-primary">View</a>
 					  </div>
 					</div>
@@ -49,6 +50,7 @@
 					<div id="collapseTwo" class="collapse">
 					  <div class="card-body">
 						<p class="card-text">Discuss about Australia Concert</p>
+						<p class="card-text">Views: 10</p>
 						<a href="<?php echo '' ?>" class="btn btn-primary">View</a>
 					  </div>
 					</div>
@@ -63,6 +65,7 @@
 					<div id="collapseThree" class="collapse">
 					  <div class="card-body">
 						<p class="card-text">Discuss about UK Concert</p>
+						<p class="card-text">Views: 12</p>
 						<a href="<?php echo '' ?>" class="btn btn-primary">View</a>
 					  </div>
 					</div>

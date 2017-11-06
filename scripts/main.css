@@ -59,8 +59,9 @@
 
 #imageCard
 {
-	height:230px;
+	height: 230px;
 }
+
 
 #fontBlack
 {	
@@ -114,6 +115,13 @@
 	height: 30px
 }
 
+#dropdownYear.dropdown-menu.show
+{
+	overflow-y :auto; 
+    overflow-x:hidden; 
+	min-height:190px; 
+}
+
 #textArea
 {
 	resize: none;
@@ -124,3 +132,13 @@
 	height: 337px
 }
 
+a.nav-link
+{
+	cursor: pointer;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
