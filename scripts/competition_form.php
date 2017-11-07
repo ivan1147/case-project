@@ -1,6 +1,4 @@
-	<?php 
-	include 'database_conn.php'; 
-	include "head.php"?>
+<?php include "head.php"?>
 	
 	<body>
   
@@ -11,113 +9,60 @@
 		
 		<br><br>
 		
+		
 		<!--Card-->
 		<div class="container">
-			<?php 
-				//Create sql statement
-				$query = "SELECT * FROM competition";
-				//execute query
-				$queryResult = mysqli_query($conn, $query) or die (mysqli_connect_error());
-				//check result rows
-				$numResult = mysqli_num_rows($queryResult);
-
-			?>
-
-			<h1> Manage Competition</h1>
+		
+			<h1>Competition</h1>
 			
-			<ul class="breadcrumb">
+			<ul class="breadcrumb mb-0	">
 			  <li class="breadcrumb-item"><a href="<?php echo 'home.php' ?>">Home</a></li>
-			  <li class="breadcrumb-item active">Manage Competition</li>
+			  <li class="breadcrumb-item"><a href="<?php echo 'competition_entry.php' ?>">Competition</a></li>
+			   <li class="breadcrumb-item active">1st Grade Form</li>
+			</ul>
+			
+			<div id="img_container" class="sm-4">
+				<img id="elementWallpaper" class="card-img-top" src="/emax/resources/Beauty-and-the-Beast-Emma-Watson-Josh-Gad-Man-Repeller.jpg" alt="Card image cap">
+				<li id="listCompetition" class="list-group-item">Who is the main cast of Beauty And The Beast?</li>
+			</div>
+			
+			<ul class="list-group mt-3 mt-3">
+			  <a id="list-item-highlight" href="" data-toggle="modal" data-target="#myModal"><li class="list-group-item list-item">First Answer</li></a>
+			  <a id="list-item-highlight" href=""><li class="list-group-item list-item">Second Answer</li></a>
+			  <a id="list-item-highlight" href=""><li class="list-group-item list-item">Third Answer</li></a>
+			  <a id="list-item-highlight" href=""><li class="list-group-item list-item">Forth Answer</li></a>
 			</ul>
 			
 			
-			<div class="container">
-				<div class="table-responsive">          
-					<table class="table">
-						<thead>
-						  <tr>
-						  	<th>No</th>
-							<th>Title</th>
-							<th>Start Date</th>
-							<th>End Date</th>
-							<th>Status</th>
-							<th>Display</th>
-							<th>Created On</th>
-							<th id="operationHeader">Operation</th>
-						  </tr>
-						</thead>
-						<tbody>
-						<?php 
-						//fetch result row
-						if($numResult > 0) {
-							//declaring count for index 
-							$count = 1;
-							while($row = mysqli_fetch_assoc($queryResult)){
-								$competitionId = $row["competitionId"];
-								$title = $row["title"];
-								$startDate = $row["startDate"];
-								$endDate = $row["endDate"];
-								$status = $row["status"];	
-								$display = $row["display"];				
-								$createdOn = $row["createdOn"];				
-
-								//Assign string to display 
-								if ($display == "Y"){
-									$display = "Yes";
-								}
-								else if ($display == 'N'){
-									$display = "No";
-								}
-
-								//Assign string to status 
-								if ($status == 'AVL'){
-									$status = "Available";
-								}
-								else if ($status == 'ONG'){						
-									$status = "Ongoing";
-								}
-
-								//Display table data
-								echo "<tr>";
-								echo "<td>".$count++."</td>";
-								echo "<td>$title</td>";
-								echo "<td>$startDate</td>";
-								echo "<td>$endDate</td>";
-								echo "<td>$status</td>";
-								echo "<td>$display</td>";
-								echo "<td>$createdOn</td>";
-								echo "<td>";
-									echo "<a id=\"viewButton\" href=\"competition_form_manage.php?id=$competitionId\" class=\"btn btn-secondary col-xl-4 text-center\">View</a> ";
-									echo "<a id=\"updateButton\" href=\"\" class=\"btn btn-secondary col-xl-4\">Update</a> ";
-									echo "<button id=\"deleteButton\" type=\"button\" class=\"btn btn-secondary col-xl-4\">Delete</button> ";
-								echo "</td>";
-								echo "</tr>";
-
-							}
-						 } 
-						 ?>
-					 </tbody>
-					</table>
-				</div>
-			
+			<div class="modal fade" id="myModal">
+					<div class="modal-dialog">
+					  <div class="modal-content">
+					  
+						<!-- Modal Header -->
+						<div class="modal-header">
+						  <h4 class="modal-title">Complete Competition</h4>
+						  <button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						
+						<!-- Modal body -->
+						<div class="modal-body">
+						  <div class="form-group">	  
+							<div class="row ml-2">
+								<label for="email">Do you want to submit your form? You may re-enter the competition anytime before the end date</label>
+							</div>
+						  </div>
+						</div>
+						
+						<!-- Modal footer -->
+						<div class="modal-footer">
+						  <a href="<?php echo 'competition_form.php' ?>" class="btn btn-secondary">Complete</a>
+						  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+						</div>
+						
+					  </div>
+					</div>
 				
-				<div class="row">		
-					<a id="createItem" href="<?php echo 'discussion_create.php' ?>" class="btn btn-info mt-3">Create Competition</a>
-					<ul class="pagination col-sm-4 mt-3 mx-auto">
-						<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item active"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">Next</a></li>
-					</ul>
-				</div>
-			
 			</div>
-			
-			
-			
-			
-		
 		</div>
 		
 		
@@ -126,7 +71,6 @@
 		
 	  
 	</div>
-
 	<script>
 		$(document).ready(function(){
 			$('[data-toggle="tooltip"]').tooltip(); 
