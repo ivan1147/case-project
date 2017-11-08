@@ -11,12 +11,7 @@
 		$emailAddress = $_POST['emailAddress'];
 		$birthDate3 = $_SESSION['birthDate'];
 		$role = "Senior";
-		$emailActivation = "False";
-		
-		$_SESSION['username'] = $username;
-		$_SESSION['password'] = $password;
-		$_SESSION['fullName'] = $fullName;
-		$_SESSION['emailAddress'] = $emailAddress;
+		$emailActivation = "True";
 		
 		$sqlTest2 = "SELECT * FROM user WHERE emailAddress = '$emailAddress'";
 
@@ -53,7 +48,6 @@
 
 			if($stmt->execute())
 			{
-				include "mail.php";
 				echo "<script type='text/javascript'>
 					$(document).ready(function(){
 					$('#myModal8').modal('show');
@@ -85,12 +79,7 @@
 		$emailAddress = $_POST['emailAddress'];
 		$birthDate3 = $_SESSION['birthDate'];
 		$role = "Junior";
-		$emailActivation = "False";
-		
-		$_SESSION['username'] = $username;
-		$_SESSION['password'] = $password;
-		$_SESSION['fullName'] = $fullName;
-		$_SESSION['emailAddress'] = $emailAddress;
+		$emailActivation = "True";
 		
 		$sqlTest2 = "SELECT * FROM user WHERE emailAddress = '$emailAddress'";
 
@@ -123,13 +112,21 @@
 			
 			mysqli_stmt_bind_param($stmt, "sssssss", $fullName, $username, $password2, $birthDate3, $emailAddress, $role, $emailActivation);     
 			
-	
-						
+			$_SESSION['username'] = $username;
+			$_SESSION['password'] = $password;
+			$_SESSION['fullName'] = $fullName;
+			$_SESSION['emailAddress'] = $emailAddress;
+			
+			include "mail.php";
+			
 
 			if($stmt->execute())
 			{
-				include "mail.php";
-				$_SESSION['registerSuccess'] = "Registration Sucessful";
+				echo "<script type='text/javascript'>
+					$(document).ready(function(){
+					$('#myModal8').modal('show');
+					});
+				</script>";
 				
 			}
 			else
@@ -167,4 +164,22 @@
 	</div>
 </div>
 
+
+<div class="modal fade" id="myModal8">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<!-- Modal Header -->
+			<div class="modal-header">
+			  <h4 class="modal-title">Registration Sucessful</h4>
+			  <p class="modal-title">Please check your email to fully activate the account</h4>
+			</div>
+			
+			<!-- Modal footer -->
+			<div class="modal-footer">
+			  <a href="home.php" class="btn btn-secondary">Go To Home Page</a>
+			</div>
+		</div>
+		
+	</div>
+</div>
 

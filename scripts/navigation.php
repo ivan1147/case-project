@@ -81,8 +81,7 @@
 					$('#myModal3').modal('show');
 					});
 				</script>";
-				
-		//$_SESSION[''] = null;
+
 	}
 	
 	if(isset($_SESSION['errorPassword']))
@@ -92,8 +91,41 @@
 					$('#myModal3').modal('show');
 					});
 				</script>";
-				
-		//$_SESSION[''] = null;
+
+	}
+	
+	if(isset($_SESSION['errorActivation']))
+	{
+		echo "<script type='text/javascript'>
+					$(document).ready(function(){
+					$('#myModal3').modal('show');
+					});
+				</script>";
+	}
+	
+	if(isset($_SESSION['registerSuccess']))
+	{
+		echo "<script type='text/javascript'>
+					$(document).ready(function(){
+					$('#myModal8').modal('show');
+					});
+				</script>";
+	}
+	
+	if(isset($_GET['username']) && isset($_GET['activation']))
+	{
+		$username = $_GET['username'];
+		$sqlTest = "UPDATE user SET emailActivation='True' WHERE username='$username'";
+		$sqlTest  = mysqli_query($conn, $sqlTest) or die("Error : ". mysqli_error($conn));
+		
+		if(mysqli_affected_rows($conn) > 0)
+		{
+			echo "<script type='text/javascript'>
+					$(document).ready(function(){
+					$('#myModal9').modal('show');
+					});
+				</script>";
+		}
 	}
 	
 ?>
@@ -193,6 +225,7 @@
 	?>
 	
 	
+	<!--Login Form-->
 	<div class="modal fade" id="myModal3">
 		<div class="modal-dialog">
 		  <div class="modal-content">
@@ -211,10 +244,15 @@
 					  {
 						echo "<p class='modal-title' style='color:#af0135'>".$_SESSION['errorUsername']."</p>";
 					  }
-					   if(isset($_SESSION['errorPassword']))
+					  if(isset($_SESSION['errorPassword']))
 					  {
 						echo "<p class='modal-title' style='color:#af0135'>".$_SESSION['errorPassword']."</p>";
 					  }
+					  if(isset($_SESSION['errorActivation']))
+					  {
+						echo "<p class='modal-title' style='color:#af0135'>".$_SESSION['errorActivation']."</p>";
+					  }
+					  
 					?>
 					<input type="text" class="form-control mt-2" id="email" placeholder="Username" name="username">
 					<input type="password" class="form-control mt-4" id="password" placeholder="Password" name="password">
@@ -231,6 +269,7 @@
 	
 	</div>
 	
+	<!--Birth Date Form-->
 	<div class="modal fade" id="myModal4">
 		<div class="modal-dialog">
 		  <div class="modal-content">
@@ -295,7 +334,7 @@
 	</div>
 	
 
-	
+	<!--Member Registration Form-->
 	<div class="modal fade" id="myModal5">
 		<div class="modal-dialog">
 		  <div class="modal-content">
@@ -340,6 +379,7 @@
 	
 	</div>
 	
+	<!--Parent Registration Form-->
 	<div class="modal fade" id="myModal6">
 		<div class="modal-dialog">
 		  <div class="modal-content">
@@ -384,6 +424,45 @@
 		  </div>
 		</div>
 	
+	</div>
+	
+	<div class="modal fade" id="myModal8">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+				  <h4 class="modal-title">Registration Successful</h4>
+				</div>
+				<div class="modal-body">
+					 <p>Please check your email to fully activate the account</p>
+				</div>
+				<!-- Modal footer -->
+				<div class="modal-footer">
+				  <a href="home.php" class="btn btn-secondary">Go To Home Page</a>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
+	
+	<div class="modal fade" id="myModal9">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+				  <h4 class="modal-title">Activation Successful</h4>
+				</div>
+				<div class="modal-body">
+					 <p>You are now able to login</p>
+				</div>
+				<!-- Modal footer -->
+				 <div class="modal-footer">
+				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+			
+		</div>
 	</div>
 		
 		

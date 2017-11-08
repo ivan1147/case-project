@@ -17,26 +17,39 @@
 		$stmt->execute();	
 		
 		$stmt->bind_result($passWordHash);
-			
+		
+		$stmt->store_result();
 			
 			//fetch the values
 		if($stmt->fetch())
 		{
 			
-			$_SESSION['loggedemail'] = $email;
+			$_SESSION['loggedUsername'] = $username;
 			
-			$role = "SELECT role FROM user WHERE emailAddress = '$email'";
+			$sql = "SELECT * FROM user WHERE username = '$username'";
 			
-			$role = mysqli_query($conn, $role);
+			$sql = mysqli_query($conn, $sql) or die("Error : ". mysqli_error($conn));
 			
-			$_SESSION['loggedrole'] = $role;
-			
-			if(password_verify($password, $passWordHash))
+			while($row = mysqli_fetch_assoc($sql))
 			{
-				
+				$role = $row['role'];
+				$emailActivation = $row['emailActivation'];
+				$_SESSION['emailActivation'] = $emailActivation;
+			}
+			
+			$_SESSION['loggedRole'] = $role;
+			
+			
+			if($_SESSION['emailActivation'] = "False")
+			{
+				$_SESSION['errorActivation'] = "The account is not activated yet. Please check your email.";
+				header('Location: ' . $_SERVER['HTTP_REFERER']);
+
+			}
+			else if(password_verify($password, $passWordHash))
+			{
 				$_SESSION['loggedIn'] = true;
 				header('Location: home.php');
-				
 			}
 			else
 			{

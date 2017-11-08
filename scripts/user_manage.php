@@ -11,6 +11,14 @@
 		$sql = "SELECT * FROM user";
 		
 		$sql = mysqli_query($conn,$sql) or die(mysqli_error($conn));
+		
+		if(isset($_GET['userId']))
+		{	
+			$userId = $_GET['userId'];
+			
+			$sql = "DELETE FROM user WHERE userId = '$userId'";
+			$sql  = mysqli_query($conn, $sql) or die("Error : ". mysqli_error($conn));
+		}
 	
 	?>
 	
@@ -63,8 +71,9 @@
 									<td>$role</td>
 									<td>
 										<a id='viewButton' href='user_profile.php?userId=$userId' class='btn btn-secondary col-xl-4'>View</a>
-										<a id='updateButton' href='' class='btn btn-secondary col-xl-4'>Update</a>
-										<button id='deleteButton' type='button' class='btn btn-secondary col-xl-4'>Delete</button>
+										<a id='updateButton' href='user_update.php?userId=$userId' class='btn btn-secondary col-xl-4'>Update</a>
+										<a id='deleteButton' href='user_manage.php?userId=$userId' class='btn btn-secondary' name='adminMemberDeleteSub'>Delete</a>
+									
 									</td>
 								  </tr>";
 							}

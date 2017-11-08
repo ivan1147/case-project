@@ -37,9 +37,32 @@
 				<div class="row">
 				  <div style="width:900px" class="col-xl-4">
 					<div class="card-block text-center">
-						<img style="height: 330px" id="imageCard2" class="card-img-top" src="/emax/resources/img_avatar2.png" alt="Card image cap">
-						<h4 class="card-title mt-3">Ivan Low</h4>
-						<p class="card-title">Role: Admin</p>
+						<?php
+							while ($row = mysqli_fetch_assoc($sql)){
+								$imageName = $row["imageName"];
+								$imageContent = $row["imageContent"];
+								echo $imageName;
+								echo '<img style="height: 330px" id="imageCard2" src="data:image/png;base64,'.base64_encode( $imageContent ).' " alt="Card image cap"/>';
+							}
+						?>
+						<h4 class="card-title mt-3">
+							<?php
+								mysqli_data_seek($sql, 0);
+								while ($row = mysqli_fetch_assoc($sql)){
+									$fullName = $row["fullName"];
+									echo $fullName;
+								}
+							?>
+						</h4>
+						<p class="card-title">
+							<?php
+								mysqli_data_seek($sql, 0);
+								while ($row = mysqli_fetch_assoc($sql)){
+									$role = $row["role"];
+									echo "Role : ".$role;
+								}
+							?>
+						</p>
 					</div>
 				  </div>
 				  <div class="col-xl-8 pt-3">
@@ -49,6 +72,7 @@
 							<table class="table">
 								<thead>
 								<?php
+									mysqli_data_seek($sql, 0);
 									while ($row = mysqli_fetch_assoc($sql)){
 										$username = $row["username"];
 										$passwordHash = $row["passwordHash"];
@@ -97,18 +121,11 @@
 										</tbody>
 										<tbody>
 											<tr>
-											<td>Role</td>
-											<td>$role</td>
-											</tr>
-										</tbody>
-										<tbody>
-											<tr>
 											<td>Created On</td>
 											<td>$createdOn</td>
 											</tr>
 										</tbody>";
 									}
-								
 								?>
 								
 							</table>
