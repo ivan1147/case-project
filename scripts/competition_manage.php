@@ -105,7 +105,7 @@ include "head.php"
 			
 				
 				<div class="row">		
-					<a id="createItem" href="<?php echo 'discussion_create.php' ?>" class="btn btn-info mt-3">Create Competition</a>
+					<a id="createItem" href="<?php echo 'competition_create.php' ?>" class="btn btn-info mt-3">Create Competition</a>
 					<ul class="pagination col-sm-4 mt-3 mx-auto">
 						<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 						<li class="page-item"><a class="page-link" href="#">1</a></li>
