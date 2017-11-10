@@ -18,34 +18,51 @@
 		$_SESSION['fullName'] = $fullName;
 		$_SESSION['emailAddress'] = $emailAddress;
 		
-		$sqlTest2 = "SELECT * FROM user WHERE emailAddress = '$emailAddress'";
+		$sqlTest = "SELECT * FROM user WHERE emailAddress = '$emailAddress'";
 
-		$sqlTest3  = mysqli_query($conn, $sqlTest2) or die("Error : ". mysqli_error($conn));
+		$sqlTest  = mysqli_query($conn, $sqlTest) or die("Error : ". mysqli_error($conn));
 		
 
-		while($data = mysqli_fetch_assoc($sqlTest3))
+		while($row = mysqli_fetch_assoc($sqlTest))
 		{
-			$email2 = $data['emailAddress'];
-			
+			$email2 = $row['emailAddress'];
+			$username2 = $row['username'];
 		}
 		
 		if(mysqli_affected_rows($conn) > 0)
 		{
+			$_SESSION['errorMemberEmail'] = "Email already exists";
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
-			$_SESSION['errorMemberEmail'] = "Email exists already";
+		}
+		
+		$sqlTest = "SELECT * FROM user WHERE username = '$username'";
+
+		$sqlTest  = mysqli_query($conn, $sqlTest) or die("Error : ". mysqli_error($conn));
+		
+
+		while($row = mysqli_fetch_assoc($sqlTest))
+		{
+			$username2 = $row['username'];
+		}
+		
+		if(mysqli_affected_rows($conn) > 0)
+		{
+			$_SESSION['errorMemberUsername'] = "Username already exists";
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		}
 		else
 		{
-
+			
 			$option = [
 				"cost" => 12,
 			];
+			
 			
 			$password2 = password_hash($password , PASSWORD_DEFAULT, $option);
 			
 			$sqlTest = "INSERT INTO user(fullName, username, passwordHash, birthDate, emailAddress, role, emailActivation) VALUES(?,?,?,?,?,?,?)";
 			
-			$stmt = mysqli_prepare($conn, $sqlTest);
+			$stmt = mysqli_prepare($conn, $sqlTest) or die("Error : ". mysqli_error($conn));
 			
 			mysqli_stmt_bind_param($stmt, "sssssss", $fullName, $username, $password2, $birthDate3, $emailAddress, $role, $emailActivation);     
 			
@@ -54,11 +71,7 @@
 			if($stmt->execute())
 			{
 				include "mail.php";
-				echo "<script type='text/javascript'>
-					$(document).ready(function(){
-					$('#myModal8').modal('show');
-					});
-				</script>";
+				$_SESSION['registerSuccess'] = "Registration Sucessful";
 				
 			}
 			else
@@ -105,8 +118,8 @@
 		
 		if(mysqli_affected_rows($conn) > 0)
 		{
-			header('Location: ' . $_SERVER['HTTP_REFERER']);
 			$_SESSION['errorParentEmail'] = "Email exists already";
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		}
 		else
 		{
@@ -119,17 +132,15 @@
 			
 			$sqlTest = "INSERT INTO user(fullName, username, passwordHash, birthDate, emailAddress, role, emailActivation) VALUES(?,?,?,?,?,?,?)";
 			
-			$stmt = mysqli_prepare($conn, $sqlTest);
+			$stmt = mysqli_prepare($conn, $sqlTest) or die("Error : ". mysqli_error($conn));
 			
 			mysqli_stmt_bind_param($stmt, "sssssss", $fullName, $username, $password2, $birthDate3, $emailAddress, $role, $emailActivation);     
 			
-	
-						
-
+			
 			if($stmt->execute())
 			{
-				include "mail.php";
 				$_SESSION['registerSuccess'] = "Registration Sucessful";
+				include "mail.php";
 				
 			}
 			else

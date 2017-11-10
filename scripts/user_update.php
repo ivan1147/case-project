@@ -24,14 +24,14 @@
 			$fullName = $_POST['fullName'];
 			$emailAddress = $_POST['emailAddress'];
 			
-			
+			//$emailAddress2 = $_SESSION['emailAddress']
 			
 			//Get the content of the image and then add slashes to it 
-			$imagetmp = addslashes (file_get_contents($_FILES['image']['tmp_name']));
+			$imagetmp = file_get_contents($_FILES['image']['tmp_name']);
 			$imagename = $_FILES["image"]["name"]; 
 			
 			
-			$sql = "SELECT * FROM user WHERE emailAddress = '$emailAddress'";
+			$sql = "SELECT * FROM user WHERE userId != $userId AND emailAddress = '$emailAddress'";
 		
 			$sql  = mysqli_query($conn, $sql) or die("Error : ". mysqli_error($conn));
 			
@@ -42,8 +42,8 @@
 			
 			if(mysqli_affected_rows($conn) > 0)
 			{
-				$_SESSION['errorMemberEmail'] = "Email exists already";
-				die("email");
+				$_SESSION['errorUpdateMemberEmail'] = "Email exists already";
+				header('Location: user_manage.php');
 			}
 			else
 			{
@@ -54,26 +54,35 @@
 				
 				$password2 = password_hash($password , PASSWORD_DEFAULT, $option);
 				
-				$sqlTest = "UPDATE user SET username=?, fullName=?, passwordHash=?, emailAddress=?, imageName=?, imageContent=? WHERE userId='$userId'";
+				$sqlTest = "UPDATE user SET username=?, fullName=?, emailAddress=? WHERE userId='$userId'";
 			
-				$stmt = mysqli_prepare($conn, $sqlTest);	
+				$stmt = mysqli_prepare($conn, $sqlTest) or die("Error : ". mysqli_error($conn));	
 				
 				
-				mysqli_stmt_bind_param($stmt, "ssssss", $username, $fullName, $password2, $emailAddress, $imageName, $imagetmp);   
+				mysqli_stmt_bind_param($stmt, "sss", $username, $fullName, $emailAddress);   
 				
 				
-				if($stmt->execute())
+				if(mysqli_stmt_execute($stmt))
 				{
-					$_SESSION['adminMemberSuccess'] = "Registration Successful";
-					header('Location: user_manage.php');
+					mysqli_stmt_store_result($stmt);
+				
+					if (mysqli_affected_rows($conn)> 0)
+					{
+						$_SESSION['adminMemberSuccess'] = "Update Successful";
+						echo "<script type='text/javascript'>window.location.href = 'user_manage.php';</script>";
+					}
+					else
+					{
+						$_SESSION['adminMemberRemain'] = "No change";
+						echo "<script type='text/javascript'>window.location.href = 'user_manage.php';</script>";
+					}
 				}
 				else
 				{
-					$_SESSION['adminMemberfailed'] = "Registration Failed";
-					die("failed");
+					$_SESSION['adminMemberfailed'] = "Update Failed";
+					echo "<script type='text/javascript'>window.location.href = 'user_manage.php';</script>";
 				}
 			
-				
 				
 				mysqli_stmt_close($stmt); 
 			}
@@ -105,32 +114,19 @@
 				$fullName = $row['fullName'];
 				$username = $row['username'];
 				$emailAddress = $row['emailAddress'];
-				$imageName = $row['imageName'];
 
 				echo"<form class='form-group' method='post' name='adminMemberDetail' enctype='multipart/form-data'>  	
 					<div class='form-group'>
 						<label for='text'>Username</label>
-						<input type='text' class='form-control' id='email' name='username' placeholder='$username'>
-					</div>
-				
-					<div class='form-group'>
-						<label for='text'>Password</label>
-						<input type='password' class='form-control' id='email' name='password'>
+						<input type='text' class='form-control' id='email' name='username' value='$username'>
 					</div>
 					<div class='form-group'>
 						<label for='text'>Full Name</label>
-						<input type='text' class='form-control' id='email' name='fullName' placeholder='$fullName'>
+						<input type='text' class='form-control' id='email' name='fullName' value='$fullName'>
 					</div>
 					<div class='form-group'>
 						<label for='text'>Email Address</label>
-						<input type='email' class='form-control' id='email' name='emailAddress' placeholder='$emailAddress'>
-					</div>
-					<div class='form-group'>
-						<label for='text'>Profile Picture</label>
-						<div class='form-group'>
-							<input type='file' name='image'>
-							<input type='hidden' name='imageName'>
-						</div>
+						<input type='email' class='form-control' id='email' name='emailAddress' value='$emailAddress'>
 					</div>
 					<button id='createItem' type='submit' class='btn btn-info mt-3' name='adminMemberSub'>Submit</button>
 				</form>";
@@ -175,3 +171,5 @@
 
 
 </html>
+
+

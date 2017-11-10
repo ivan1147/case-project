@@ -35,8 +35,6 @@
 					$('#myModal6').modal('show');
 					});
 				</script>";
-				
-			$_POST['birthSub'] = null;
 		 }
 		 else
 		 {
@@ -45,8 +43,7 @@
 					$('#myModal5').modal('show');
 					});
 				</script>";
-			
-			$_POST['birthSub'] = null;
+
 		 }
 		 
 		 
@@ -60,7 +57,6 @@
 					});
 				</script>";
 				
-		$_SESSION['errorMemberEmail'] = null;
 	}
 	
 	if(isset($_SESSION['errorParentEmail']))
@@ -71,7 +67,28 @@
 					});
 				</script>";
 				
-		$_SESSION['errorParentEmail'] = null;
+	}
+	
+
+	
+	if(isset($_SESSION['errorMemberUsername']))
+	{
+		echo "<script type='text/javascript'>
+					$(document).ready(function(){
+					$('#myModal5').modal('show');
+					});
+				</script>";
+				
+	}
+	
+	if(isset($_SESSION['errorParentUsername']))
+	{
+		echo "<script type='text/javascript'>
+					$(document).ready(function(){
+					$('#myModal5').modal('show');
+					});
+				</script>";
+				
 	}
 	
 	if(isset($_SESSION['errorUsername']))
@@ -243,14 +260,17 @@
 					  if(isset($_SESSION['errorUsername']))
 					  {
 						echo "<p class='modal-title' style='color:#af0135'>".$_SESSION['errorUsername']."</p>";
+						$_SESSION['errorUsername'] = null;
 					  }
 					  if(isset($_SESSION['errorPassword']))
 					  {
 						echo "<p class='modal-title' style='color:#af0135'>".$_SESSION['errorPassword']."</p>";
+						$_SESSION['errorPassword'] = null;
 					  }
 					  if(isset($_SESSION['errorActivation']))
 					  {
 						echo "<p class='modal-title' style='color:#af0135'>".$_SESSION['errorActivation']."</p>";
+						$_SESSION['errorActivation'] = null;
 					  }
 					  
 					?>
@@ -327,7 +347,8 @@
 				  <button id="birthBut" type="submit" class="btn btn-secondary" name="birthSub">Continue</button>
 				</form>
 			</div>
-
+			
+			
 			
 		  </div>
 		</div>
@@ -351,6 +372,25 @@
 				  if(isset($_SESSION['errorMemberEmail']))
 				  {
 					echo "<p class='modal-title' style='color:#af0135'>".$_SESSION['errorMemberEmail']."</p>";
+					$_SESSION['errorMemberEmail'] = null;
+				  }
+				  
+				  if(isset($_SESSION['errorParentEmail']))
+				  {
+					echo "<p class='modal-title' style='color:#af0135'>".$_SESSION['errorParentEmail']."</p>";
+					$_SESSION['errorParentEmail'] = null;
+				  }
+				  
+				   if(isset($_SESSION['errorMemberUsername']))
+				  {
+					echo "<p class='modal-title' style='color:#af0135'>".$_SESSION['errorMemberUsername']."</p>";
+					$_SESSION['errorMemberUsername'] = null;
+				  }
+				  
+				   if(isset($_SESSION['errorParentUsername']))
+				  {
+					echo "<p class='modal-title' style='color:#af0135'>".$_SESSION['errorParentUsername']."</p>";
+					$_SESSION['errorParentUsername'] = null;
 				  }
 				?>
 				<form class="form-row"  method="post" action="registration.php" name="memberDetail">
@@ -374,6 +414,8 @@
 			    </form>
 			</div>
 			
+			<?php $_POST['birthSub'] = null; ?>
+			
 		  </div>
 		</div>
 	
@@ -396,6 +438,7 @@
 				  if(isset($_SESSION['errorParentEmail']))
 				  {
 					echo "<p class='modal-title' style='color:#af0135'>".$_SESSION['errorParentEmail']."</p>";
+					$_SESSION['errorParentEmail'] = null;
 				  }
 			?>
 			<p class="modal-title">You are required to ask parent or guardian to fill the form. <strong> Minors (16 years and below) that register themselves will result in ban of account permanently </strong></p>
@@ -420,12 +463,14 @@
 			  </form>
 			</div>
 			
+			<?php $_POST['birthSub'] = null; ?>
 			
 		  </div>
 		</div>
 	
 	</div>
 	
+	<!--Registration Successful-->
 	<div class="modal fade" id="myModal8">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -435,17 +480,18 @@
 				</div>
 				<div class="modal-body">
 					 <p>Please check your email to fully activate the account</p>
+					 <?php $_SESSION['registerSuccess'] = null; ?>
 				</div>
 				<!-- Modal footer -->
 				<div class="modal-footer">
-				  <a href="home.php" class="btn btn-secondary">Go To Home Page</a>
+				  <button class="btn btn-secondary" data-dismiss="modal">OK</button>
 				</div>
 			</div>
 			
 		</div>
 	</div>
 	
-	
+	<!--Activation Successful-->
 	<div class="modal fade" id="myModal9">
 		<div class="modal-dialog">
 			<div class="modal-content">

@@ -41,7 +41,6 @@
 							while ($row = mysqli_fetch_assoc($sql)){
 								$imageName = $row["imageName"];
 								$imageContent = $row["imageContent"];
-								echo $imageName;
 								echo '<img style="height: 330px" id="imageCard2" src="data:image/png;base64,'.base64_encode( $imageContent ).' " alt="Card image cap"/>';
 							}
 						?>

@@ -34,22 +34,27 @@
 			{
 				$role = $row['role'];
 				$emailActivation = $row['emailActivation'];
+				$emailAddress = $row['emailAddress'];
+				
 				$_SESSION['emailActivation'] = $emailActivation;
+				$_SESSION['emailAddress'] = $emailAddress;
 			}
 			
 			$_SESSION['loggedRole'] = $role;
 			
 			
-			if($_SESSION['emailActivation'] = "False")
+			if(password_verify($password, $passWordHash))
 			{
-				$_SESSION['errorActivation'] = "The account is not activated yet. Please check your email.";
-				header('Location: ' . $_SERVER['HTTP_REFERER']);
-
-			}
-			else if(password_verify($password, $passWordHash))
-			{
-				$_SESSION['loggedIn'] = true;
-				header('Location: home.php');
+				if($_SESSION['emailActivation'] == "False")
+				{
+					$_SESSION['errorActivation'] = "The account is not activated yet. Please check your email.";
+					header('Location: home.php');
+				}
+				else 
+				{
+					$_SESSION['loggedIn'] = true;
+					header('Location: home.php');
+				}
 			}
 			else
 			{

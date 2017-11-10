@@ -14,12 +14,12 @@ $mail = new PHPMailer(true);                              // Passing `true` enab
 try {
     //Server settings
 	$mail->isSMTP();
-    $mail->SMTPDebug = 1;    
+   // $mail->SMTPDebug = 1;    
 	$mail->SMTPAuth = true;	
 	$mail->AuthType = 'LOGIN';	
-	$mail->SMTPSecure = 'ssl';                  // Set mailer to use SMTP
+	$mail->SMTPSecure = 'tls';                  // Set mailer to use SMTP
     $mail->Host = 'smtp.gmail.com';
-	$mail->Port = 465;						
+	$mail->Port = 587;						
 	$mail->IsHTML(true);						// Specify main and backup SMTP servers                             
     $mail->Username = 'projack1147@gmail.com';                 // SMTP username
     $mail->Password = '0164284673';                           // SMTP password
@@ -34,13 +34,13 @@ try {
     //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
 
     //Content              
-	$_SESSION['Activation'] = "True";
+	$_SESSION['activation'] = "True";
     $mail->Subject = 'Emax Account Activation';
     $mail->Body    = "<div id='jumbotronHome' class='jumbotron' style='background-color: #343a40 color: #ffffff'>
 					<h1>Thank you for registering your account</h1> 
 					<p>Dear ".$_SESSION['fullName']."</p>
-					<p>Please click on the follwing link</p>
-					<p>http://localhost/emax/scripts/home.php?username=".$_SESSION['username']."&activation=".$_SESSION['Activation']."</p></div>";
+					<p>Please click on the follwing linstudent.kdupg.edu.my/emax/scripts/home.php?username=".$_SESSION['username']."&activation=".$_SESSION['activationk</p>
+					<p>https://']."</p></div>";
 					
     //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 	//$mail->addAddress($_SESSION['emailAddress'], $_SESSION['fullname']);

@@ -6,8 +6,8 @@
 	<!--Navigation Bar-->
 	<?php 
 	
-		include "navigation.php";
 		include "head.php";
+		include "navigation.php";
 		
 		if(isset($_POST['adminMemberSub']))
 		{
@@ -16,6 +16,7 @@
 			$fullName = $_POST['fullName'];
 			$birthDate = $_POST['birthDate'];
 			$emailAddress = $_POST['emailAddress'];			
+			$emailActivation = "True";		
 			
 			$currentDate = date("Y-m-d");
 
@@ -56,6 +57,22 @@
 				$_SESSION['errorMemberEmail'] = "Email exists already";
 				die("email");
 			}
+			
+			$sqlTest = "SELECT * FROM user WHERE username = '$username'";
+
+			$sqlTest  = mysqli_query($conn, $sqlTest) or die("Error : ". mysqli_error($conn));
+			
+
+			while($row = mysqli_fetch_assoc($sqlTest))
+			{
+				$username2 = $row['username'];
+			}
+			
+			if(mysqli_affected_rows($conn) > 0)
+			{
+				$_SESSION['errorMemberUsername'] = "Username already exists";
+				header('Location: ' . $_SERVER['HTTP_REFERER']);
+			}
 			else
 			{
 
@@ -65,21 +82,21 @@
 				
 				$password2 = password_hash($password , PASSWORD_DEFAULT, $option);
 				
-				$sqlTest = "INSERT INTO user(fullName, username, passwordHash, birthDate, emailAddress, imageName, imageContent) VALUES(?,?,?,?,?,?,?)";
+				$sqlTest = "INSERT INTO user(fullName, username, passwordHash, birthDate, role, emailActivation, emailAddress, imageName, imageContent) VALUES(?,?,?,?,?,?,?,?,?)";
 				
 				$stmt = mysqli_prepare($conn, $sqlTest);
 				
-				mysqli_stmt_bind_param($stmt, "sssssss", $fullName, $username, $password2, $birthDate, $emailAddress, $imagename, $imagetmp);     
+				mysqli_stmt_bind_param($stmt, "sssssssss", $fullName, $username, $password2, $birthDate, $role, $emailActivation, $emailAddress, $imagename, $imagetmp);     
 				
 				if($stmt->execute())
 				{
 					$_SESSION['adminMemberSuccess'] = "Registration Successful";
-					header('Location: user_manage.php');
+					echo "<script type='text/javascript'>window.location.href = 'user_manage.php';</script>";
 				}
 				else
 				{
 					$_SESSION['adminMemberfailed'] = "Registration Failed";
-					die("failed");
+					echo "<script type='text/javascript'>window.location.href = 'user_manage.php';</script>";
 				}
 				
 				
@@ -121,7 +138,7 @@
 				</div>
 				<div class="form-group">
 					<label for="text">Date of Birth</label>
-					<input type="text" class="form-control" id="email" name="birthDate">
+					<input type="text" id="datepicker" class="form-control" name="birthDate">
 				</div>
 				<div class="form-group">
 					<label for="text">Email Address</label>
@@ -154,8 +171,14 @@
 
 <script>
 	$(document).ready(function(){
-		$('[data-toggle="tooltip"]').tooltip(); 
+		$("#datepicker").datepicker({
+			changeMonth: true,
+			changeYear: true,
+			yearRange: '-100:+0',
+			dateFormat: 'yy-mm-dd'
+		});
 	});
+
 </script>
 
 </body>
