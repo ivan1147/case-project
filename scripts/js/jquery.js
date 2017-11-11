@@ -1,8 +1,10 @@
 $(document).ready(function(){
+    var dateToday = new Date();
     //date picker ui
     var dates = $( "#from, #to" ).datepicker({
         dateFormat: 'yy-mm-dd',
-        onSelect: function(dateText, inst) {
+        minDate: dateToday,
+        onSelect: function(dateText, inst, selectedDate) {
             //set value
             $("#" + this.id + "_value").val(dateText);
             //set the min or max date
@@ -10,9 +12,10 @@ $(document).ready(function(){
             instance = $( this ).data( "datepicker" ),
             date = $.datepicker.parseDate(
                 instance.settings.dateFormat ||
-                $.datepicker._defaults.dateFormat,
+                $.datepicker._defaults.dateFormat, 
                 dateText, instance.settings );
             dates.not( this ).datepicker( "option", option, date );
         }
     });
 });
+

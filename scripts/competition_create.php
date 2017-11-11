@@ -4,36 +4,54 @@
 <div class="container"> 
     <!--Navigation Bar-->
     <?php include "navigation.php"; 
-    
+
     //Insert Function
-    if (isset($_POST['adminCompetitionSub'])){
+    //$btnSubmit = filter_has_var(INPUT POST, 'btnSubmit') ? trim ($_POST['']);
+    if (isset($_POST['btnSubmit'])){
 
         $title = $_POST['title'];
         $startDate = $_POST['from_value'];
         $endDate = $_POST['to_value'];
-    //$status = $_POST['status'];
         $display = $_POST['display'];	
 
-        //validation
-        //if display = yes then status = ongoing / pending depending on date
-        //if startdate/ enddate earlier than current date, display error 
+        //getting current date and change dateTime format
+        date_default_timezone_set("Asia/Singapore");
+        $currentDate = date('Y-m-d');
 
-        //insert query
-        $sqlInsert = "INSERT INTO competition(title, startDate, endDate, display) VALUES(?,?,?,?)";
-        $stmt = mysqli_prepare($conn, $sqlInsert);
-        mysqli_stmt_bind_param($stmt, "ssss", $title, $startDate, $endDate, $display);   
-    
-        if($stmt->execute())
-        {
-            echo  "Registration Successful";
-            //header('Location: competition_manage.php');
+        //Validation 
+        //validating dates
+        if(($currentDate == $startDate) || ($currentDate == $endDate)) {
+            echo "Start Date and End Date cannot be current date";
         }
-        else
-        {
-            echo "Registration Failed";
-            die("failed");
+        else if($startDate == $endDate){
+            echo "Start Date and End Date cannot be on the same day";
         }
-        mysqli_stmt_close($stmt);
+        else {
+            if($display == "Y") {
+                //insert query if display is "Yes"
+                $sqlInsert = "INSERT INTO competition(title, startDate, endDate, display) VALUES(?,?,?,?)";
+                $stmt = mysqli_prepare($conn, $sqlInsert);
+                mysqli_stmt_bind_param($stmt, "ssss", $title, $startDate, $endDate, $display);   
+            }
+            else if($display == "N") {
+                //insert query if display is "No"
+                $sqlInsert = "INSERT INTO competition(title, startDate, endDate, display) VALUES(?,?,?,?)";
+                $stmt = mysqli_prepare($conn, $sqlInsert);
+                mysqli_stmt_bind_param($stmt, "ssss", $title, $startDate, $endDate, $display);   
+            }
+            //after query is executed 
+            if($stmt->execute())
+            {
+                echo  "Registration Successful";
+            }
+            else
+            {
+                echo "Registration Failed";
+                header('Location: competition_create.php');
+            }
+            mysqli_stmt_close($stmt);
+        }
+           
     }
 
     ?>
@@ -49,7 +67,7 @@
 
         <!--Competition Form-->
         <div class = "container">
-            <form class="form-group" method="post" name="addCompetition" enctype="multipart/form-data">  
+            <form class="form-group" method="post" id="addCompetitionForm" name="addCompetition" enctype="multipart/form-data">  
                 <div class="form-group">
 				    <label for="text">Title</label>
 					<input type="text" class="form-control" id="title" name="title">
@@ -86,7 +104,7 @@
                     </div>
 				</div>
 
-                <button id="createItem" type="submit" class="btn btn-info mt-3" name="adminCompetitionSub">Submit</button>
+                <button id="createItem" type="submit" class="btn btn-info mt-3" name="btnSubmit">Submit</button>
             </form>
         </div>
 
@@ -98,6 +116,43 @@
 </div>
 
 <script src="js/jquery.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+
+<script> 
+$(document).ready(function() {
+    
+    //Validations 
+    $("#addCompetitionForm").validate({
+        rules: {
+            title: {
+                required: true,
+                maxlength: 255
+            },
+            from_value: {
+                required: true
+            },
+            to_value: {
+                required: true
+            }
+        },
+        //custom validation messages 
+        messages: {
+            title: {
+                required: "*Title is required",
+                maxlength: "*Title must not be more than 255 characters"
+            },
+            from_value: {
+                required: "*Start Date is required",
+            },
+            to_value: {
+                required: "*End Date is required",
+            }
+        },    
+    });
+
+});
+
+</script>
 
 </body>
 </html>

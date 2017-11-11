@@ -52,33 +52,51 @@ include "head.php"
 						if($numResult > 0) {
 							//declaring count for index 
 							$count = 1;
+							//getting current date and change dateTime format
+							date_default_timezone_set("Asia/Singapore");
+							$currentDate = date('Y-m-d');
+							echo $currentDate;
 							while($row = mysqli_fetch_assoc($queryResult)){
 								$competitionId = $row["competitionId"];
 								$title = $row["title"];
 								$startDate = $row["startDate"];
 								$endDate = $row["endDate"];
-								$status = $row["status"];	
+								$status = " ";	
+								$dbStatus = " ";
 								$display = $row["display"];				
-								$createdOn = $row["createdOn"];				
-
-								//Assign string to display 
-								if ($display == "Y"){
+								$createdOn = $row["createdOn"];			
+								
+								//Assign string to display and assign status 
+								if ($display == "Y") {
 									$display = "Yes";
+									if(($currentDate < $startDate) && ($currentDate < $endDate)) {
+										$status = "Pending";
+										$dbStatus = "PEN";
+									}
+									if(($currentDate >= $startDate) && ($currentDate < $endDate))
+									{
+										$status = "Ongoing";
+										$dbStatus = "ONG";
+									}
 								}
-								else if ($display == 'N'){
+								else if (($display == 'N') ){
 									$display = "No";
+									if(($currentDate < $startDate) || (($currentDate >= $startDate) && ($currentDate <= $endDate))){
+										$status = "Available";
+										$dbStatus = "AVL";
+									}
+									//check this
+									else if ($currentDate > $endDate){
+										$status = "Ended";
+										$dbStatus = "END";
+									}
 								}
 
-								//Assign string to status 
-								if ($status == 'AVL'){
-									$status = "Available";
-								}
-								else if ($status == 'ONG'){						
-									$status = "Ongoing";
-								}
-								else if ($status == 'PEN') {
-									$status = "Pending";
-								}
+								// update db status
+								$sqlStatus = "UPDATE competition SET status = ? WHERE competitionId = ?";
+								$stmt = mysqli_prepare($conn, $sqlStatus);
+								mysqli_stmt_bind_param($stmt, "si", $dbStatus, $competitionId); 
+								mysqli_stmt_execute($stmt);
 
 								//Display table data
 								echo "<tr>";
@@ -86,7 +104,7 @@ include "head.php"
 								echo "<td>$title</td>";
 								echo "<td>$startDate</td>";
 								echo "<td>$endDate</td>";
-								echo "<td>$status</td>";
+								echo "<td>$status </td>";
 								echo "<td>$display</td>";
 								echo "<td>$createdOn</td>";
 								echo "<td>";
