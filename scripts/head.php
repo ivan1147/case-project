@@ -12,6 +12,8 @@
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css" />
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+		
 		<!--<script src="http://code.gijgo.com/1.6.1/js/gijgo.js" type="text/javascript"></script>
 		<link href="http://code.gijgo.com/1.6.1/css/gijgo.css" rel="stylesheet" type="text/css" />-->
 		

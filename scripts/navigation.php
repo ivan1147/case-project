@@ -122,6 +122,12 @@
 	
 	if(isset($_SESSION['registerSuccess']))
 	{
+		$ipAddress = $_SERVER['REMOTE_ADDR'];
+		$name = "User Registration";
+		$link = "user_profile";
+		$sql = "INSERT INTO activity(ipAddress, name, link) VALUES('$ipAddress', '$name', '$link')";
+		$sql  = mysqli_query($conn, $sql) or die("Error : ". mysqli_error($conn));
+				
 		echo "<script type='text/javascript'>
 					$(document).ready(function(){
 					$('#myModal8').modal('show');
@@ -137,6 +143,12 @@
 		
 		if(mysqli_affected_rows($conn) > 0)
 		{
+			$ipAddress = $_SERVER['REMOTE_ADDR'];
+			$name = "User Activation";
+			$link = "user_profile";
+			$sql = "INSERT INTO activity(ipAddress, name, link) VALUES('$ipAddress', '$name', '$link')";
+			$sql  = mysqli_query($conn, $sql) or die("Error : ". mysqli_error($conn));
+			
 			echo "<script type='text/javascript'>
 					$(document).ready(function(){
 					$('#myModal9').modal('show');

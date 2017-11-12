@@ -68,18 +68,18 @@
 				
 					if (mysqli_affected_rows($conn)> 0)
 					{
-						$_SESSION['adminMemberSuccess'] = "Update Successful";
+						$_SESSION['adminProfile'] = "profile3";
 						echo "<script type='text/javascript'>window.location.href = 'user_manage.php';</script>";
 					}
 					else
 					{
-						$_SESSION['adminMemberRemain'] = "No change";
+						$_SESSION['adminProfile'] = "profile4";
 						echo "<script type='text/javascript'>window.location.href = 'user_manage.php';</script>";
 					}
 				}
 				else
 				{
-					$_SESSION['adminMemberfailed'] = "Update Failed";
+					$_SESSION['adminProfile'] = "profile5";
 					echo "<script type='text/javascript'>window.location.href = 'user_manage.php';</script>";
 				}
 			

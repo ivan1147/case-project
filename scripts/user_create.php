@@ -40,7 +40,7 @@
 			$imagename = $_FILES["image"]["name"]; 
 
 			//Get the content of the image and then add slashes to it 
-			$imagetmp=addslashes (file_get_contents($_FILES['image']['tmp_name']));
+			$imagetmp = file_get_contents($_FILES['image']['tmp_name']);
 
 	
 			$sql = "SELECT * FROM user WHERE emailAddress = '$emailAddress'";
@@ -54,8 +54,8 @@
 			
 			if(mysqli_affected_rows($conn) > 0)
 			{
-				$_SESSION['errorMemberEmail'] = "Email exists already";
-				die("email");
+				$_SESSION['errorMemberEmail'] = "Email already exists";
+				header('Location: ' . $_SERVER['HTTP_REFERER']);
 			}
 			
 			$sqlTest = "SELECT * FROM user WHERE username = '$username'";
@@ -90,12 +90,12 @@
 				
 				if($stmt->execute())
 				{
-					$_SESSION['adminMemberSuccess'] = "Registration Successful";
+					$_SESSION['adminProfile'] = "profile1";
 					echo "<script type='text/javascript'>window.location.href = 'user_manage.php';</script>";
 				}
 				else
 				{
-					$_SESSION['adminMemberfailed'] = "Registration Failed";
+					$_SESSION['adminProfile'] = "profile2";
 					echo "<script type='text/javascript'>window.location.href = 'user_manage.php';</script>";
 				}
 				

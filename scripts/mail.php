@@ -10,28 +10,28 @@ require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
 
-$mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+$mail = new PHPMailer(true);                              
 try {
     //Server settings
 	$mail->isSMTP();
    // $mail->SMTPDebug = 1;    
 	$mail->SMTPAuth = true;	
 	$mail->AuthType = 'LOGIN';	
-	$mail->SMTPSecure = 'tls';                  // Set mailer to use SMTP
+	$mail->SMTPSecure = 'tls';                 
     $mail->Host = 'smtp.gmail.com';
 	$mail->Port = 587;						
-	$mail->IsHTML(true);						// Specify main and backup SMTP servers                             
-    $mail->Username = 'projack1147@gmail.com';                 // SMTP username
-    $mail->Password = '0164284673';                           // SMTP password
+	$mail->IsHTML(true);						                        
+    $mail->Username = 'projack1147@gmail.com';              
+    $mail->Password = '0164284673';                          
                                        
 
     //Recipients
     $mail->setFrom('projack@gmail.com', 'Ivan Low');
-    //$mail->addAddress('ellen@example.com');               // Name is optional
+    //$mail->addAddress('ellen@example.com');              
 
     //Attachments
-    //$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-    //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+    //$mail->addAttachment('/var/tmp/file.tar.gz');        
+    //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    
 
     //Content              
 	$_SESSION['activation'] = "True";
@@ -39,8 +39,8 @@ try {
     $mail->Body    = "<div id='jumbotronHome' class='jumbotron' style='background-color: #343a40 color: #ffffff'>
 					<h1>Thank you for registering your account</h1> 
 					<p>Dear ".$_SESSION['fullName']."</p>
-					<p>Please click on the follwing linstudent.kdupg.edu.my/emax/scripts/home.php?username=".$_SESSION['username']."&activation=".$_SESSION['activationk</p>
-					<p>https://']."</p></div>";
+					<p>Please click on the follwing link</p>
+					<p>https://student.kdupg.edu.my/emax/scripts/home.php?username=".$_SESSION['username']."&activation=".$_SESSION['activation']."</p></div>";
 					
     //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 	//$mail->addAddress($_SESSION['emailAddress'], $_SESSION['fullname']);
@@ -50,6 +50,7 @@ try {
     echo 'Message has been sent';
 	
 	header("Location: home.php");
+	
 } 
 catch (Exception $e) 
 {

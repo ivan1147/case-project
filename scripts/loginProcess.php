@@ -35,9 +35,11 @@
 				$role = $row['role'];
 				$emailActivation = $row['emailActivation'];
 				$emailAddress = $row['emailAddress'];
+				$userId = $row['userId'];
 				
 				$_SESSION['emailActivation'] = $emailActivation;
 				$_SESSION['emailAddress'] = $emailAddress;
+				$_SESSION['loggedUserId'] = $userId;
 			}
 			
 			$_SESSION['loggedRole'] = $role;
@@ -51,9 +53,19 @@
 					header('Location: home.php');
 				}
 				else 
-				{
+				{			
 					$_SESSION['loggedIn'] = true;
-					header('Location: home.php');
+					
+					if($_SESSION['loggedIn'])
+					{
+						$ipAddress = $_SERVER['REMOTE_ADDR'];
+						$name = "User Login";
+						$link = "user_profile";
+						$sql = "INSERT INTO activity(ipAddress, name, userId, link) VALUES('$ipAddress', '$name', '$userId', '$link')";
+						$sql  = mysqli_query($conn, $sql) or die("Error : ". mysqli_error($conn));
+						header('Location: home.php');
+					}
+					
 				}
 			}
 			else
