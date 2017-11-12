@@ -52,51 +52,93 @@ include "head.php"
 						if($numResult > 0) {
 							//declaring count for index 
 							$count = 1;
-							//getting current date and change dateTime format
-							date_default_timezone_set("Asia/Singapore");
-							$currentDate = date('Y-m-d');
-							echo $currentDate;
+							
+							//echo $currentDate;
 							while($row = mysqli_fetch_assoc($queryResult)){
 								$competitionId = $row["competitionId"];
 								$title = $row["title"];
 								$startDate = $row["startDate"];
 								$endDate = $row["endDate"];
 								$status = " ";	
-								$dbStatus = " ";
 								$display = $row["display"];				
 								$createdOn = $row["createdOn"];			
 								
-								//Assign string to display and assign status 
+								//getting current date and change dateTime format
+								date_default_timezone_set("Asia/Singapore");
+								$currentDate = date('Y-m-d');
+								//Assigning status based on date
 								if ($display == "Y") {
 									$display = "Yes";
-									if(($currentDate < $startDate) && ($currentDate < $endDate)) {
-										$status = "Pending";
-										$dbStatus = "PEN";
+									if($currentDate < $startDate) {
+										$status = "PEN";
 									}
-									if(($currentDate >= $startDate) && ($currentDate < $endDate))
+									else if(($currentDate >= $startDate) && ($currentDate <= $endDate))
 									{
-										$status = "Ongoing";
-										$dbStatus = "ONG";
+										$status = "ONG";
 									}
+									// else if ($currentDate > $endDate){
+									// 	$displayChange = "N";
+									// 	//update display data
+									// 	$sqlDisplay = "UPDATE competition SET display = ? WHERE competitionId = ?";
+									// 	$stmt = mysqli_prepare($conn, $sqlDisplay);
+									// 	mysqli_stmt_bind_param($stmt, "si", $displayChange, $competitionId); 
+									// 	mysqli_stmt_execute($stmt);
+									// 	mysqli_stmt_close($stmt);	
+									// 	//assign status and display string
+									// 	$status = "END";
+									// 	$display = "No";
+									// }
 								}
-								else if (($display == 'N') ){
+								else if ($display == 'N'){
 									$display = "No";
-									if(($currentDate < $startDate) || (($currentDate >= $startDate) && ($currentDate <= $endDate))){
-										$status = "Available";
-										$dbStatus = "AVL";
+									if($currentDate < $endDate){
+										$status = "AVL";
 									}
-									//check this
-									else if ($currentDate > $endDate){
-										$status = "Ended";
-										$dbStatus = "END";
+									else if(($currentDate >= $startDate) && ($currentDate <= $endDate)){
+										$status = "UVL";
 									}
+									// else if ($currentDate > $endDate){
+									// 	$status = "END";
+									// }
+								}
+								
+								if($currentDate > $endDate){
+									$display = "N";
+									//update display data
+									$sqlDisplay = "UPDATE competition SET display = ? WHERE competitionId = ?";
+									$stmt = mysqli_prepare($conn, $sqlDisplay);
+									mysqli_stmt_bind_param($stmt, "si", $display, $competitionId); 
+									mysqli_stmt_execute($stmt);
+									mysqli_stmt_close($stmt);	
+									//assign status and display string
+									
+									$display = "No";
+									$status = "END";
 								}
 
-								// update db status
+								//update status data
 								$sqlStatus = "UPDATE competition SET status = ? WHERE competitionId = ?";
 								$stmt = mysqli_prepare($conn, $sqlStatus);
-								mysqli_stmt_bind_param($stmt, "si", $dbStatus, $competitionId); 
+								mysqli_stmt_bind_param($stmt, "si", $status, $competitionId); 
 								mysqli_stmt_execute($stmt);
+								mysqli_stmt_close($stmt);
+
+								//Assigning status string to data
+								if ($status == "PEN" ){
+									$status = "Pending";
+								}
+								else if($status == "ONG"){
+									$status = "Ongoing";
+								}
+								else if($status == "AVL"){
+									$status = "Available";
+								}
+								else if($status == "UVL"){
+									$status = "Unavalable";
+								}
+								else if($status == "END"){
+									$status = "Ended";
+								}
 
 								//Display table data
 								echo "<tr>";
