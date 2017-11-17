@@ -168,6 +168,7 @@ $(document).ready(function(){
 	}
 });
 
+//display form ajax
 function display_form(formId, competitionId, $title, $display, $status){
 	$.ajax({
 		url: "competition_form_manage_ajax.php",

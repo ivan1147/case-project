@@ -2,8 +2,7 @@
 include "head.php";
 ?>
 	
-	<body>
-  
+<body>
 	<div class="container">
 		
 		<!--Navigation Bar-->
@@ -187,53 +186,159 @@ include "head.php";
 			
 				
 				<div class="container">		
-					<button class="btn btn-info mt-3" id="changeDate" onclick="window.location.href='competition_update.php'">Change Competition Date</button>
-					<!-- <a id="changeDate" href="competition_update.php" class="btn btn-info mt-3">Change Competition Date</a> -->
-					<button class="btn btn-info mt-3 button" id="displayBtn" name="display" value="display" >Display All Competition</button>
+					<button class="btn btn-info mt-3" id="changeDate"  data-toggle='modal' data-target='#changeDateModel'>Change Competition Date</button>
+					<!-- <a id="changeDate" href="competition_update.php" class="btn btn-info mt-3">Change Competition Date</a> onclick="window.location.href='competition_update.php'" -->
+					<button class="btn btn-info mt-3 button" onclick= "confirm('Are you sure you want display the competition')" id="displayBtn" name="display" value="display" >Display All Competition</button>
 					<!-- <button class="btn btn-info mt-3 button" name="select" value="somethingelse" >select</button> -->
-				</div>
-				
-				
-				
+				</div>	
 			</div>
 		</div>
 
 		<!--Footer-->
 		<?php include "footer.php"?>
-	  
-	</div>
 
-<script>
+		<div class="modal fade" id="changeDateModel">
+			<div class="modal-dialog"  style="width: 95%">
+				<div class="modal-content" style="width: 643px; right:10%;">
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class='modal-title'>Change Competition Date?</h4>
+					</div>
+					<!-- Modal Body -->
+					<div class="modal-body">
+						<form role="form" id="changeDateForm">
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-6">
+										<label for="text">Start Date</label>
+										<input type="text" id="from_value" name="from_value" readonly/>
+									</div>
+									<div class="col-sm-6">
+										<label for="text">End Date</label>
+										<input type="text" id="to_value" name="to_value" readonly/>
+									</div>
+								</div>
+								<div class="row">
+									<div id="from" class="datepicker col-sm-6"></div>
+									<div id="to" class="datepicker col-sm-6"></div>
+								</div>
+							</div>
+							<!-- Modal footer -->
+					<div class="modal-footer">
+						<input class="btn btn-secondary" type="submit" id="saveDate" value="Save">
+						<button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					</div>
+						</form>
+					</div>
+					
+				</div>
+				
+			</div>
+		</div>
+
+		
+		
+	  
+	
+	<script src="js/jquery.validate.min.js"></script>
+
+						
+	<script>
 	$(document).ready(function(){
+		//disable buttons
 		var myvar = <?php echo json_encode($status); ?>;
-		if (myvar == "Ongoing" || myvar =="Unavailable") {
+		if (myvar == "Ongoing" ) {
 			$('#displayBtn').prop('disabled', true);
 			$('#changeDate').attr("disabled","disabled");
 		}
-		else if(myvar=="Ended" || myvar=="Pending") {
+		else if(myvar=="Ended" || myvar=="Pending" || myvar =="Unavailable") {
 			$('#displayBtn').prop('disabled', true);
 		}
 
+		//show modal for changeDate
+		$("#changeDate").click(function(){
+			$("#changeDateModel").modal();
+
+		});
+
+		//links to ajax page
 		$('.button').click(function(){
         	var clickBtnValue = $(this).val();
-			if (confirm('Are you sure you want display the competition')) {
-				$.ajax({
-					url: "competition_manage_ajax.php",
-					type: "POST",
-					data: {'action': clickBtnValue} ,
-					success: function (response) {
-						alert (response);    
-						location.reload();       
-					},
-					error: function(jqXHR, textStatus, errorThrown) {
-					console.log(textStatus, errorThrown);
-					}
-				});
-			}
+			$.ajax({
+				url: "competition_manage_ajax.php",
+				type: "POST",
+				data: {'action': clickBtnValue} ,
+				success: function (response) {
+					alert (response);    
+					location.reload();       
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+				console.log(textStatus, errorThrown);
+				}
+			});
     	});
+
+		//update date ajax
+		$("#saveDate").click(function(){
+			var data = $("#changeDateModel #changeDateForm").serialize();
+			//Validation
+			$("#changeDateForm").validate({
+				rules: {
+					from_value: {
+						required: true
+					},
+					to_value: {
+						required: true
+					}
+				},
+				//custom validation messages 
+				messages: {
+					from_value: {
+						required: "*Start Date is required",
+					},
+					to_value: {
+						required: "*End Date is required",
+					}
+				},    
+				submitHandler: function(form) {
+					$.ajax({
+						url: "competition_manage_ajax.php",
+						type: "POST",
+						data: data+"&task=changeDate",
+						success: function (response) {
+							alert (response);    
+							location.reload();       
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							console.log(textStatus, errorThrown);
+						}
+					});
+				}
+			});
+		});	
+
+		//DatePicker
+		var dateToday = new Date();
+		//date picker ui
+		var dates = $( "#from, #to" ).datepicker({
+			dateFormat: 'yy-mm-dd',
+			minDate: dateToday,
+			onSelect: function(dateText, inst, selectedDate) {
+				//set value
+				$("#" + this.id + "_value").val(dateText);
+				//set the min or max date
+				var option = this.id == "from" ? "minDate" : "maxDate",
+				instance = $( this ).data( "datepicker" ),
+				date = $.datepicker.parseDate(
+					instance.settings.dateFormat ||
+					$.datepicker._defaults.dateFormat, 
+					dateText, instance.settings );
+				dates.not( this ).datepicker( "option", option, date );
+			}
+		});	
 	});
 	</script>
-  </body>
+</body>
   
   
 </html>

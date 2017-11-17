@@ -14,11 +14,11 @@ if($_POST["task"] == "display_form"){
     }
     else if($formDisplay == "No") {
         $sqlY = "UPDATE form
-        INNER JOIN competition
-            ON form.competitionId = competition.competitionId 
-        SET form.display = 'Y'
-        WHERE form.competitionId = '".$competitionId."'
-        AND form.formId = '".$formId."'";
+                INNER JOIN competition
+                    ON form.competitionId = competition.competitionId 
+                SET form.display = 'Y'
+                WHERE form.competitionId = '".$competitionId."'
+                AND form.formId = '".$formId."'";
 
         $sqlN = "UPDATE form
                 INNER JOIN competition
