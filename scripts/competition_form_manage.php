@@ -1,5 +1,5 @@
 <?php 
-include "head.php"
+include "head.php";
 ?>
 
 <body>
@@ -31,6 +31,17 @@ include "head.php"
 		$competitionTitle = $row['title']; 
 	}
 
+	//Assigning title string
+	if ($competitionTitle == "10to13" ){
+		$competitionTitle = "Age 10 - 13";
+	}
+	else if($competitionTitle == "14to16"){
+		$competitionTitle = "Age 14 - 16";
+	}
+	else if($competitionTitle == "17to18"){
+		$competitionTitle = "Age 17 - 18";
+	}
+
 	?>
 	<!--Card-->
 	<div class="container">
@@ -49,14 +60,15 @@ include "head.php"
 
 			<!--Table-->
 			<div class="table-responsive">          
-				<table class="table">
+				<table class="table" id="formTbl">
 				<thead>
 					<tr>
-					<th>ID</th>
-					<th>Title</th>
-					<th>Status</th>
-					<th>Created On</th>
-					<th id="operationHeader">Operation</th>
+					<th class="text-center">ID</th>
+					<th class="text-center">Title</th>
+					<th class="text-center">Display</th>
+					<th class="text-center">Number of Questions</th>
+					<th class="text-center">Created On</th>
+					<th class="text-center" colspan="2" id="operationHeader">Operation</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -68,40 +80,40 @@ include "head.php"
 					$formId = $row[0];
 					$title = $row[1];
 					$competitionId = $row[2];
-					$status = $row[3];
+					$display = $row[3];
 					$createdOn = $row[4];
-//competition data
-//$competitionStatus = $row[10];
+
+					//competition data
+					$status = $row[10];
 										
 					//Assign string to status 
-					if ($status == 'AVL'){
-						$status = "Available";
+					if ($display == 'Y'){
+						$display = "Yes";
 					}
-					else if ($status == 'ONG'){						
-						$status = "Ongoing";
+					else if ($display == 'N'){						
+						$display = "No";
 					}
-					else if ($status == 'PEN') {
-						$status = "Pending";
-					}
-
-/*if ($competitionStatus = 'ONG') {
-$updateStatus = "Update form SET $"
-}*/
 														
 					//Display table data
 					echo "<tr>";
-					echo "<td>".$count++."</td>";
-					echo "<td>$title</td>";
-					echo "<td>$status</td>";
-					echo "<td>$createdOn</td>";
-					echo "<td>";
-					echo "<a id=\"viewButton\" href=\"\" class=\"btn btn-secondary col-xl-4\">View</a> ";
-					echo "<a id=\"updateButton\" href=\"\" class=\"btn btn-secondary col-xl-4\">Update</a> ";
-					echo "<button id=\"deleteButton\" type=\"button\" class=\"btn btn-secondary col-xl-4\">Delete</button> ";
+					echo "<td class=\"text-center\">".$count++."</td>";
+					echo "<td class=\"text-center\">$title</td>";
+					echo "<td class=\"text-center\">$display</td>";
+					echo "<td class=\"text-center\">1</td>";
+					echo "<td class=\"text-center\">$createdOn</td>";
+					echo "<td class=\"text-center\">";
+						echo "<a id=\"viewButton\" href=\"\" class=\"btn btn-secondary col-xl-3\">View</a> ";
+						echo "<a id=\"updateButton\" href=\"\" class=\"btn btn-secondary col-xl-3\">Update</a> ";
+						echo "<a id=\"updateButton\" href=\"\" class=\"btn btn-secondary col-xl-3\">Delete</a> ";
+						echo '<button class="btn btn-secondary col-xl-3" onClick = "display_form('.$formId.','.$competitionId.',\''.$title.'\',\''.$display.'\')" id="displayBtn">Display </button>';
+					//onClick = "display_form('.$formId.','.$competitionId.',\''.$title.'\',\''.$display.'\')"
 					echo "</td>";
 					echo "</tr>";
 					?>
 				</tbody>
+				<?php
+				} //end while loop
+				?>
 				</table>
 			</div> <!--Close table div-->
 								
@@ -115,16 +127,10 @@ $updateStatus = "Update form SET $"
 						<li class="page-item"><a class="page-link" href="#">3</a></li>
 						<li class="page-item"><a class="page-link" href="#">Next</a></li>
 					</ul>
-				</div> <!--Close Button and pagination div-->
-
-				<?php
-				} //end while loop
-		?>
+				</div> <!--Close Button and pagination div-->	
 		</div> <!--Close Card div--> 
 		<?php
 		} //end if numResultForm check 	
-
-
 		else {
 			?>
 				<!--Button-->
@@ -153,9 +159,35 @@ else{
 </div> <!--Close whole page div-->   
 
 <script>
-	$(document).ready(function(){
-		$('[data-toggle="tooltip"]').tooltip(); 
+$(document).ready(function(){
+	var myvar = <?php echo json_encode($status); ?>;
+	if (myvar == "ONG") {
+		//$('#displayBtn').prop('disabled', true);
+		var button = jQuery("#formTbl button");
+		$(button).prop('disabled', true);
+	}
+});
+
+function display_form(formId, competitionId, $title, $display, $status){
+	$.ajax({
+		url: "competition_form_manage_ajax.php",
+		type: "POST",
+		data: {
+			"task":"display_form",
+			"formId":formId,
+			"competitionId": competitionId,
+			"formTitle": $title,
+			"formDisplay": $display
+		},
+		success: function (response) {
+			alert (response);    
+			location.reload();       
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log(textStatus, errorThrown);
+		}
 	});
+}	
 </script>
 
 </body>

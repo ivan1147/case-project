@@ -1,5 +1,5 @@
 <?php 
-include "head.php"
+include "head.php";
 ?>
 	
 	<body>
@@ -14,13 +14,37 @@ include "head.php"
 		<!--Card-->
 		<div class="container">
 			<?php 
-				//Create sql statement
-				$query = "SELECT * FROM competition";
-				//execute query
-				$queryResult = mysqli_query($conn, $query) or die (mysqli_connect_error());
-				//check result rows
-				$numResult = mysqli_num_rows($queryResult);
+				//define how many results you want per page
+				$results_per_page = 10;
 
+				//Retrieve all data from competition table
+				$sql = "SELECT * FROM competition";
+				$result = mysqli_query($conn, $sql) or die (mysqli_connect_error());
+				$numResult = mysqli_num_rows($result);
+
+				//determine which page number visitor is currently on
+				$number_of_pages = ceil($numResult/$results_per_page);
+
+				if (!isset($_GET['page'])) {
+					$page = 1;
+				} else {
+					$page = $_GET['page'];
+				}
+
+				//determine the sql limit starting number for the result on the displaying page
+				$this_page_first_result = ($page-1)*$results_per_page;
+
+				//retreives selected results from database and display them on page
+				$sql = 'SELECT * FROM competition LIMIT ' . $this_page_first_result . ',' .  $results_per_page;
+				$result = mysqli_query($conn, $sql);
+
+				if(isset($_GET['competitionId']))
+				{	
+					$competitionId = $_GET['competitionId'];
+					
+					$sql = "DELETE FROM competition WHERE competitionId = '$competitionId'";
+					$sql = mysqli_query($conn, $sql) or die("Error : ". mysqli_error($conn));
+				}
 			?>
 
 			<h1> Manage Competition</h1>
@@ -33,17 +57,17 @@ include "head.php"
 			
 			<div class="container">
 				<div class="table-responsive">          
-					<table class="table">
+					<table class="table" id="tableList">
 						<thead>
 						  <tr>
-						  	<th>No</th>
-							<th>Title</th>
-							<th>Start Date</th>
-							<th>End Date</th>
-							<th>Status</th>
-							<th>Display</th>
-							<th>Created On</th>
-							<th id="operationHeader">Operation</th>
+						  	<th class="text-center">Id</th>
+							<th class="text-center">Title</th>
+							<th class="text-center">Start Date</th>
+							<th class="text-center">End Date</th>
+							<th class="text-center">Status</th>
+							<th class="text-center">Display</th>
+							<th class="text-center">Created On</th>
+							<th class="text-center" id="operationHeader">Operation</th>
 						  </tr>
 						</thead>
 						<tbody>
@@ -54,7 +78,7 @@ include "head.php"
 							$count = 1;
 							
 							//echo $currentDate;
-							while($row = mysqli_fetch_assoc($queryResult)){
+							while($row = mysqli_fetch_assoc($result)){
 								$competitionId = $row["competitionId"];
 								$title = $row["title"];
 								$startDate = $row["startDate"];
@@ -66,6 +90,7 @@ include "head.php"
 								//getting current date and change dateTime format
 								date_default_timezone_set("Asia/Singapore");
 								$currentDate = date('Y-m-d');
+								
 								//Assigning status based on date
 								if ($display == "Y") {
 									$display = "Yes";
@@ -76,42 +101,29 @@ include "head.php"
 									{
 										$status = "ONG";
 									}
-									// else if ($currentDate > $endDate){
-									// 	$displayChange = "N";
-									// 	//update display data
-									// 	$sqlDisplay = "UPDATE competition SET display = ? WHERE competitionId = ?";
-									// 	$stmt = mysqli_prepare($conn, $sqlDisplay);
-									// 	mysqli_stmt_bind_param($stmt, "si", $displayChange, $competitionId); 
-									// 	mysqli_stmt_execute($stmt);
-									// 	mysqli_stmt_close($stmt);	
-									// 	//assign status and display string
-									// 	$status = "END";
-									// 	$display = "No";
-									// }
 								}
 								else if ($display == 'N'){
 									$display = "No";
-									if($currentDate < $endDate){
+									if($currentDate < $startDate){
 										$status = "AVL";
 									}
 									else if(($currentDate >= $startDate) && ($currentDate <= $endDate)){
 										$status = "UVL";
 									}
-									// else if ($currentDate > $endDate){
-									// 	$status = "END";
-									// }
 								}
-								
+
+								// After end date, status and display data will be changed
 								if($currentDate > $endDate){
 									$display = "N";
+
 									//update display data
 									$sqlDisplay = "UPDATE competition SET display = ? WHERE competitionId = ?";
 									$stmt = mysqli_prepare($conn, $sqlDisplay);
 									mysqli_stmt_bind_param($stmt, "si", $display, $competitionId); 
 									mysqli_stmt_execute($stmt);
-									mysqli_stmt_close($stmt);	
-									//assign status and display string
-									
+									mysqli_stmt_close($stmt);
+
+									//assign status and display string									
 									$display = "No";
 									$status = "END";
 								}
@@ -123,7 +135,18 @@ include "head.php"
 								mysqli_stmt_execute($stmt);
 								mysqli_stmt_close($stmt);
 
-								//Assigning status string to data
+								//Assigning title string
+								if ($title == "10to13" ){
+									$title = "Age 10 - 13";
+								}
+								else if($title == "14to16"){
+									$title = "Age 14 - 16";
+								}
+								else if($title == "17to18"){
+									$title = "Age 17 - 18";
+								}
+
+								//Assigning status string
 								if ($status == "PEN" ){
 									$status = "Pending";
 								}
@@ -134,7 +157,7 @@ include "head.php"
 									$status = "Available";
 								}
 								else if($status == "UVL"){
-									$status = "Unavalable";
+									$status = "Unavailable";
 								}
 								else if($status == "END"){
 									$status = "Ended";
@@ -142,17 +165,16 @@ include "head.php"
 
 								//Display table data
 								echo "<tr>";
-								echo "<td>".$count++."</td>";
-								echo "<td>$title</td>";
-								echo "<td>$startDate</td>";
-								echo "<td>$endDate</td>";
-								echo "<td>$status </td>";
-								echo "<td>$display</td>";
-								echo "<td>$createdOn</td>";
-								echo "<td>";
+								//echo "<td>".$count++."</td>";
+								echo "<td class=\"text-center\">$competitionId</td>";
+								echo "<td class=\"text-center\">$title</td>";
+								echo "<td class=\"text-center\">$startDate</td>";
+								echo "<td class=\"text-center\">$endDate</td>";
+								echo "<td class=\"text-center\">$status </td>";
+								echo "<td class=\"text-center\">$display</td>";
+								echo "<td class=\"text-center\">$createdOn</td>";
+								echo "<td class=\"text-center\">";
 									echo "<a id=\"viewButton\" href=\"competition_form_manage.php?id=$competitionId\" class=\"btn btn-secondary col-xl-4 text-center\">View</a> ";
-									echo "<a id=\"updateButton\" href=\"\" class=\"btn btn-secondary col-xl-4\">Update</a> ";
-									echo "<button id=\"deleteButton\" type=\"button\" class=\"btn btn-secondary col-xl-4\">Delete</button> ";
 								echo "</td>";
 								echo "</tr>";
 
@@ -164,38 +186,53 @@ include "head.php"
 				</div>
 			
 				
-				<div class="row">		
-					<a id="createItem" href="<?php echo 'competition_create.php' ?>" class="btn btn-info mt-3">Create Competition</a>
-					<ul class="pagination col-sm-4 mt-3 mx-auto">
-						<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item active"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">Next</a></li>
-					</ul>
+				<div class="container">		
+					<button class="btn btn-info mt-3" id="changeDate" onclick="window.location.href='competition_update.php'">Change Competition Date</button>
+					<!-- <a id="changeDate" href="competition_update.php" class="btn btn-info mt-3">Change Competition Date</a> -->
+					<button class="btn btn-info mt-3 button" id="displayBtn" name="display" value="display" >Display All Competition</button>
+					<!-- <button class="btn btn-info mt-3 button" name="select" value="somethingelse" >select</button> -->
 				</div>
-			
+				
+				
+				
 			</div>
-			
-			
-			
-			
-		
 		</div>
-		
-		
+
 		<!--Footer-->
 		<?php include "footer.php"?>
-		
 	  
 	</div>
 
-	<script>
-		$(document).ready(function(){
-			$('[data-toggle="tooltip"]').tooltip(); 
-		});
+<script>
+	$(document).ready(function(){
+		var myvar = <?php echo json_encode($status); ?>;
+		if (myvar == "Ongoing" || myvar =="Unavailable") {
+			$('#displayBtn').prop('disabled', true);
+			$('#changeDate').attr("disabled","disabled");
+		}
+		else if(myvar=="Ended" || myvar=="Pending") {
+			$('#displayBtn').prop('disabled', true);
+		}
+
+		$('.button').click(function(){
+        	var clickBtnValue = $(this).val();
+			if (confirm('Are you sure you want display the competition')) {
+				$.ajax({
+					url: "competition_manage_ajax.php",
+					type: "POST",
+					data: {'action': clickBtnValue} ,
+					success: function (response) {
+						alert (response);    
+						location.reload();       
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+					console.log(textStatus, errorThrown);
+					}
+				});
+			}
+    	});
+	});
 	</script>
-	
   </body>
   
   
