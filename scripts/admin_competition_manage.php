@@ -19,31 +19,6 @@ include "navigation.php";
 // 	exit();
 // }
 
-// if(isset($_GET['userId']))
-// {	
-// 	$userId = $_GET['userId'];
-	
-// 	$sql = "DELETE FROM user WHERE userId = '$userId'";
-// 	$sql  = mysqli_query($conn, $sql) or die("Error : ". mysqli_error($conn));
-	
-// 	if (mysqli_affected_rows($conn)> 0)
-// 	{
-// 		$_SESSION['adminProfile'] = "profile6";
-// 	}
-// 	else
-// 	{
-// 		$_SESSION['adminProfile'] = "profile7";
-// 	}
-// }
-
-// if(isset($_SESSION['adminProfile']))
-// {
-// 	echo "<script type='text/javascript'>
-// 			$(document).ready(function(){
-// 			$('#myModal10').modal('show');
-// 			});
-// 		</script>";
-// }
 				
 //Retrieve all data from competition table
 $sql = "SELECT * FROM competition";
@@ -194,7 +169,7 @@ $numResult = mysqli_num_rows($result);
 		<div class="container">		
 			<button class="btn btn-info mt-3" id="changeDate"  data-toggle='modal' data-target='#changeDateModel'>Change Competition Date</button>
 			<!-- <a id="changeDate" href="competition_update.php" class="btn btn-info mt-3">Change Competition Date</a> onclick="window.location.href='competition_update.php'" -->
-			<button class="btn btn-info mt-3 button" onclick= "confirm('Are you sure you want display the competition')" id="displayBtn" name="display" value="display" >Display All Competition</button>
+			<button class="btn btn-info mt-3 button" id="displayBtn" name="display" value="display" >Display All Competition</button>
 			<!-- <button class="btn btn-info mt-3 button" name="select" value="somethingelse" >select</button> -->
 		</div>	
 	</div>
@@ -265,18 +240,20 @@ $(document).ready(function(){
 	//links to ajax page
 	$('.button').click(function(){
         var clickBtnValue = $(this).val();
-		$.ajax({
-			url: "admin_competition_manage_ajax.php",
-			type: "POST",
-			data: {'action': clickBtnValue} ,
-			success: function (response) {
-				alert (response);    
-				location.reload();       
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-			console.log(textStatus, errorThrown);
-			}
-		});
+		if (confirm("Are you sure you want display the competition? Changes cannot be undo?") == true) {
+			$.ajax({
+				url: "admin_competition_manage_ajax.php",
+				type: "POST",
+				data: {'action': clickBtnValue} ,
+				success: function (response) {
+					alert (response);    
+					location.reload();       
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+				console.log(textStatus, errorThrown);
+				}
+			});
+		}
     });
 
 	//update date ajax
