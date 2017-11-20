@@ -10,23 +10,13 @@ if (isset($_POST['action'])) {
 function display() {
     include "database_conn.php";
 
-    //Check if all three competition have form displayed
-    $sqlForm = "SELECT display from form WHERE display = 'Y'";
-    $resultForm = mysqli_query($conn,$sqlForm);
-    $formNumResult = mysqli_num_rows($resultForm);
-    
-    if ($formNumResult == 3) {
-        $display = "Y";
-        $sql = "UPDATE competition SET display = ? ";
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "s", $display);   
-        mysqli_stmt_execute($stmt);
-            
-        echo "Competition is displayed";
-    }
-    else {
-        echo "Please make sure all three competition each have a form displayed";
-    }
+    $display = "Y";
+    $sql = "UPDATE competition SET display = ? ";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $display);   
+    mysqli_stmt_execute($stmt);
+        
+    echo "Competition is displayed";
         
     exit;
 }
