@@ -217,8 +217,6 @@ $numResult = mysqli_num_rows($result);
 		</div>			
 	</div>
 </div> <!-- End Change Date Modal -->
-
-<script src="js/jquery.validate.min.js"></script>
 					
 <script>
 $(document).ready(function(){
