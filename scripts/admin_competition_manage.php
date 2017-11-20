@@ -4,8 +4,8 @@
 <div class="container">
 
 <?php 
-// include "head.php";
-// include "navigation.php";	
+include "head.php";
+include "navigation.php";	
 
 // if(isset($_SESSION['loggedIn']) && isset($_SESSION['loggedRole']) && $_SESSION['loggedRole'] == "Admin")
 // {
