@@ -115,7 +115,7 @@ else if($_POST['task']=="add_form"){
   $formTitle = $_POST["formTitle"];
 
   //Retrieve form data for duplicate data comparison
-  $sqlExist = "SELECT title FROM form WHERE title = '".$formTitle."'" ;
+  $sqlExist = "SELECT title FROM form WHERE title = '".$formTitle."' AND competitionId = ".$competitionId ;
   $resultExist = mysqli_query($conn,$sqlExist);
   $existNumRows = mysqli_num_rows($resultExist);
 
@@ -141,11 +141,12 @@ else if($_POST['task']=="add_form"){
 else if($_POST['task']=="update_form"){
   //Hidden field from form
   $formId = $_POST["formId"];
+  $competitionId = $_POST["competitionId"];
   //Field from form
   $formTitle = $_POST["formTitle"];
 
   //Retrieve form data for duplicate data comparison
-  $sqlExist = "SELECT title FROM form WHERE title = '".$formTitle."'" ;
+  $sqlExist = "SELECT title FROM form WHERE title = '".$formTitle."' AND competitionId = ".$competitionId ;
   $resultExist = mysqli_query($conn,$sqlExist);
   $existNumRows = mysqli_num_rows($resultExist);
 
