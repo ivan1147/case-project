@@ -10,13 +10,24 @@
 		$password = $_POST['password'];
 		$emailAddress = $_POST['emailAddress'];
 		$birthDate3 = $_SESSION['birthDate'];
-		$role = "Senior";
+		$role = $_SESSION['ageRange'];
 		$emailActivation = "False";
+		
+		
+		/*$sqlTes = "SELECT MAX(userId) AS max_total FROM user";
+		$sqlTes  = mysqli_query($conn, $sqlTes) or die("Error : ". mysqli_error($conn));
+		$rows = mysqli_fetch_array($sqlTes);
+		$latestUserId = $rows['max_total'];
+		$latestUserId = (int)$latestUserId + 1;
+		$latestUserId = (string)$latestUserId;*/
+		$activationCode = md5($username);
 		
 		$_SESSION['username'] = $username;
 		$_SESSION['password'] = $password;
 		$_SESSION['fullName'] = $fullName;
 		$_SESSION['emailAddress'] = $emailAddress;
+		$_SESSION['latestUserId'] = $latestUserId;
+		$_SESSION['activationCode'] = $activationCode;
 		
 		$sqlTest = "SELECT * FROM user WHERE emailAddress = '$emailAddress'";
 
@@ -33,6 +44,7 @@
 		{
 			$_SESSION['errorMemberEmail'] = "Email already exists";
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
+			break;
 		}
 		
 		$sqlTest = "SELECT * FROM user WHERE username = '$username'";
@@ -45,10 +57,12 @@
 			$username2 = $row['username'];
 		}
 		
+		
 		if(mysqli_affected_rows($conn) > 0)
 		{
 			$_SESSION['errorMemberUsername'] = "Username already exists";
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
+			break;
 		}
 		else
 		{
@@ -60,11 +74,11 @@
 			
 			$password2 = password_hash($password , PASSWORD_DEFAULT, $option);
 			
-			$sqlTest = "INSERT INTO user(fullName, username, passwordHash, birthDate, emailAddress, role, emailActivation) VALUES(?,?,?,?,?,?,?)";
+			$sqlTest = "INSERT INTO user(fullName, username, passwordHash, birthDate, emailAddress, role, emailActivation, activationCode) VALUES(?,?,?,?,?,?,?,?)";
 			
 			$stmt = mysqli_prepare($conn, $sqlTest) or die("Error : ". mysqli_error($conn));
 			
-			mysqli_stmt_bind_param($stmt, "sssssss", $fullName, $username, $password2, $birthDate3, $emailAddress, $role, $emailActivation);     
+			mysqli_stmt_bind_param($stmt, "ssssssss", $fullName, $username, $password2, $birthDate3, $emailAddress, $role, $emailActivation, $activationCode);     
 			
 			
 
@@ -97,13 +111,17 @@
 		$password = $_POST['password'];
 		$emailAddress = $_POST['emailAddress'];
 		$birthDate3 = $_SESSION['birthDate'];
-		$role = "Junior";
+		$role = $_SESSION['ageRange'];
 		$emailActivation = "False";
+		
+		$activationCode = md5($username);
 		
 		$_SESSION['username'] = $username;
 		$_SESSION['password'] = $password;
 		$_SESSION['fullName'] = $fullName;
 		$_SESSION['emailAddress'] = $emailAddress;
+		$_SESSION['latestUserId'] = $latestUserId;
+		$_SESSION['activationCode'] = $activationCode;
 		
 		$sqlTest2 = "SELECT * FROM user WHERE emailAddress = '$emailAddress'";
 
@@ -130,11 +148,11 @@
 			
 			$password2 = password_hash($password , PASSWORD_DEFAULT, $option);
 			
-			$sqlTest = "INSERT INTO user(fullName, username, passwordHash, birthDate, emailAddress, role, emailActivation) VALUES(?,?,?,?,?,?,?)";
+			$sqlTest = "INSERT INTO user(fullName, username, passwordHash, birthDate, emailAddress, role, emailActivation, activationCode) VALUES(?,?,?,?,?,?,?,?)";
 			
 			$stmt = mysqli_prepare($conn, $sqlTest) or die("Error : ". mysqli_error($conn));
 			
-			mysqli_stmt_bind_param($stmt, "sssssss", $fullName, $username, $password2, $birthDate3, $emailAddress, $role, $emailActivation);     
+			mysqli_stmt_bind_param($stmt, "ssssssss", $fullName, $username, $password2, $birthDate3, $emailAddress, $role, $emailActivation, $activationCode);     
 			
 			
 			if($stmt->execute())
