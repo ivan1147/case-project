@@ -41,7 +41,8 @@
 				$_SESSION['emailAddress'] = $emailAddress;
 				$_SESSION['loggedUserId'] = $userId;
 			}
-		
+			
+			$_SESSION['loggedRole'] = $role;
 			
 			
 			if(password_verify($password, $passWordHash))
@@ -54,14 +55,13 @@
 				else 
 				{			
 					$_SESSION['loggedIn'] = true;
-					$_SESSION['loggedRole'] = $role;
 					
 					if($_SESSION['loggedIn'])
 					{
 						$ipAddress = $_SERVER['REMOTE_ADDR'];
 						$name = "User Login";
 						$link = "user_profile";
-						$sql = "INSERT INTO activity(ipAddress, name, categoryId, userId) VALUES('$ipAddress', '$name', 1, '$userId')";
+						$sql = "INSERT INTO activity(ipAddress, name, userId, link) VALUES('$ipAddress', '$name', '$userId', '$link')";
 						$sql  = mysqli_query($conn, $sql) or die("Error : ". mysqli_error($conn));
 						header('Location: home.php');
 					}

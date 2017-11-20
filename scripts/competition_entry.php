@@ -29,7 +29,7 @@
 				<div class="col-xl-12">
 					<img id="elementWallpaper" class="card-img-top" src="/emax/resources/Competition-at-Work-3-Steps-to-Keep-It-Healthy-and-Motivational-1200x630.png" alt="Card image cap">
 				</div>
-				<button type="button" class="buttonCompetition btn btn-warning" data-toggle="modal" data-target="#myModal">Participate Now</button>
+				<button type="button" class="btn btn-warning" id="buttonCompetition" data-toggle="modal" data-target="#myModal">Participate Now</button>
 			</div>
 			
 			

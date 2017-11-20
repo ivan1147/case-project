@@ -1,22 +1,12 @@
+	<?php include "head.php"?>
+	
 	
 	<body>
   
 	<div class="container">
 		
-		<?php 
-			include "head.php";
-			include "navigation.php";
-		
-			if(isset($_SESSION['loggedIn']) && isset($_SESSION['loggedRole']) && $_SESSION['loggedRole'] == "Admin")
-			{
-			}
-			else
-			{
-				echo "<script type='text/javascript'>window.location.href = 'home.php';</script>";
-				exit();
-			}
-		
-		?>
+		<!--Navigation Bar-->
+		<?php include "navigation.php"?>
 		
 		
 		

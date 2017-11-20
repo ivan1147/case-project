@@ -1,21 +1,12 @@
+	<?php include "head.php"?>
+	
+	
 	<body>
   
 	<div class="container">
 		
-		<?php 
-			include "head.php";
-			include "navigation.php";
-		
-			if(isset($_SESSION['loggedIn']) && isset($_SESSION['loggedRole']))
-			{
-			}
-			else
-			{
-				echo "<script type='text/javascript'>window.location.href = 'home.php';</script>";
-				exit();
-			}
-		
-		?>
+		<!--Navigation Bar-->
+		<?php include "navigation.php"?>
 		
 		
 		
@@ -42,10 +33,11 @@
 				  </div>
 				  <div class="form-group">
 					<label for="pwd">Description</label>
-					<input type="email" class="form-control" id="pwd">
+					<input type="password" class="form-control" id="pwd">
 				  </div>
 				  <div class="form-group">
-					<input class="mt-1" type="file" name="image" />
+					<label for="pwd">Choose Image</label>
+					<input type="password" class="form-control" id="pwd">
 				  </div>
 				  <button type="submit" class="btn btn-primary">Submit</button>
 				</form>

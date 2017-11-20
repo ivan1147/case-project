@@ -1,25 +1,9 @@
+	<?php include "head.php"?>
+	
+	
 	<body>
   
 	<div class="container">
-		
-		<?php 
-			include "head.php";
-			include "navigation.php";
-			
-			if(isset($_SESSION['loggedIn']) && isset($_SESSION['loggedRole']) && $_SESSION['loggedRole'] == "Admin")
-			{
-				$sql = "SELECT * FROM user";
-				
-				$sql = mysqli_query($conn,$sql) or die(mysqli_error($conn));
-			}
-			else
-			{
-				echo "<script type='text/javascript'>window.location.href = 'home.php';</script>";
-				exit();
-			}
-		?>
-  
-	<div class="container mt-5">
 		
 		<!--Navigation Bar-->
 		<?php include "navigation.php"?>
@@ -98,17 +82,15 @@
 					
 				</div>
 				
-				<div class="container">
-					<div class="row">		
+				<div class="row">		
 						<button id="createItem" type="button" class="btn btn-info mt-3">Create Gallery</button>
-						<ul class="pagination col-xl-4 mt-3 mx-auto">
+						<ul class="pagination col-sm-4 mt-3 mx-auto">
 							<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 							<li class="page-item"><a class="page-link" href="#">1</a></li>
 							<li class="page-item active"><a class="page-link" href="#">2</a></li>
 							<li class="page-item"><a class="page-link" href="#">3</a></li>
 							<li class="page-item"><a class="page-link" href="#">Next</a></li>
 						</ul>
-					</div>
 				</div>
 			</div>
 			

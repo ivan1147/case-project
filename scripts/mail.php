@@ -9,6 +9,7 @@ require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
+
 $mail = new PHPMailer(true);                              
 try {
     //Server settings
@@ -38,8 +39,8 @@ try {
     $mail->Body    = "<div id='jumbotronHome' class='jumbotron' style='background-color: #343a40 color: #ffffff'>
 					<h1>Thank you for registering your account</h1> 
 					<p>Dear ".$_SESSION['fullName']."</p>
-					<p>Please click on the follwing link ro activate and login your account</p>
-					<p>https://student.kdupg.edu.my/emax/scripts/home.php?username=".$_SESSION['username']."&activationCode=".$_SESSION['activationCode']."</p></div>";
+					<p>Please click on the follwing link</p>
+					<p>https://student.kdupg.edu.my/emax/scripts/home.php?username=".$_SESSION['username']."&activation=".$_SESSION['activation']."</p></div>";
 					
     //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 	//$mail->addAddress($_SESSION['emailAddress'], $_SESSION['fullname']);

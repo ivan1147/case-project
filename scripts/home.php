@@ -36,21 +36,21 @@
 				  </ol>
 				  <div class="carousel-inner" role="listbox">
 					<div class="carousel-item active">
-					  <img class="d-block img-fluid" src="/emax/resources/x-factor-louisa1.jpg" alt="First slide" style="width: 740px; height: 337px">
+					  <img class="d-block img-fluid" src="/emax/resources/la.jpg" alt="First slide">
 					  <div class="carousel-caption d-none d-md-block">
 						<h3>Los Angeles</h3>
 						<p>We had such a great time in LA!</p>
 					  </div>
 					</div>
 					<div class="carousel-item">
-					  <img class="d-block img-fluid" src="/emax/resources/X-Factor-finalists-Louisa-Johnson.jpg" alt="Second slide" style="width: 740px; height: 337px">
+					  <img class="d-block img-fluid" src="/emax/resources/ny.jpg" alt="Second slide">
 					  <div class="carousel-caption d-none d-md-block">
 						<h3>New York</h3>
 						<p>We love the Big Apple!</p>
 					  </div>
 					</div>
 					<div class="carousel-item">
-					  <img class="d-block img-fluid" src="/emax/resources/Screen_Shot_2015-12-14_at_18.30.45.png" alt="Third slide" style="width: 740px; height: 337px">
+					  <img class="d-block img-fluid" src="/emax/resources/chicago.jpg" alt="Third slide">
 					  <div class="carousel-caption d-none d-md-block">
 						<h3>Chicago</h3>
 						<p>Thank you, Chicago!</p>
@@ -75,41 +75,22 @@
 		
 		<!--Card-->
 		<div class="row">
-			<?php 
-			if(isset($_SESSION['loggedIn']) && isset($_SESSION['loggedRole']) && $_SESSION['loggedRole'] == "Junior")
-			{
-				echo"<div class='col-xl-4'>
-					<div class='card'>
-					  <img id='imageCard' class='card-img-top' src='/emax/resources/competition_is_good_-1043x1065.png' alt='Card image cap'>
-					  
-					  <div class='d-block mx-auto row text-center pt-3 pb-3'>
-						  <div class='card-block'>
-							<h4 class='card-title'>Competition</h4>
-							<p class='card-text'>Join a competition to win some prize!</p>
-						  </div>
+			<div class="col-xl-4">
+				
+				<div class="card">
+				  <img id="imageCard" class="card-img-top" src="/emax/resources/wordpress-auction.jpg" alt="Card image cap">
+				  
+				  <div class="d-block mx-auto row text-center pt-3 pb-3">
+					  <div class="card-block">
+						<h4 class="card-title">Auction</h4>
+						<p class="card-text">Bid some items!</p>
+						<a href="<?php echo 'auction.php' ?>" class="btn btn-primary">Open Page</a>
 					  </div>
-					
-					</div>
-				</div>";
-			}
-			else
-			{
-				echo"<div class='col-xl-4'>
-					<div class='card'>
-					  <img id='imageCard' class='card-img-top' src='/emax/resources/wordpress-auction.jpg' alt='Card image cap'>
-					  
-					  <div class='d-block mx-auto row text-center pt-3 pb-3'>
-						  <div class='card-block'>
-							<h4 class='card-title'>Auction</h4>
-							<p class='card-text'>Bid some items!</p>
-						  </div>
-					  </div>
-					
-					</div>
-				</div>";
-			}
-			
-			?>
+				  </div>
+				  
+				</div>
+				
+			</div>
 			
 			
 			<div class="col-xl-4">
@@ -120,6 +101,7 @@
 					  <div class="card-block">
 						<h4 class="card-title">Discussion Board</h4>
 						<p class="card-text">Talk about any topics now</p>
+						<a href="<?php echo 'discussion.php' ?>" class="btn btn-primary">Open Page</a>
 					  </div>
 				  </div>
 				</div>
@@ -134,6 +116,7 @@
 					  <div class="card-block">
 						<h4 class="card-title">Gallery</h4>
 						<p class="card-text">View your favorite event pictures</p>
+						<a href="<?php echo 'gallery.php' ?>" class="btn btn-primary">Open Page</a>
 					  </div>
 				  </div>
 				</div>

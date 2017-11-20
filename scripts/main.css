@@ -12,11 +12,11 @@
 	text-align:center;
 }
 
-.buttonCompetition 
+#buttonCompetition 
 {
-	/*position:fixed;
+	position:absolute;
 	bottom:250px;
-	right:435px;*/
+	right:435px;
 	width:200px;
 	height:50px;
 	font-size: 20px;
@@ -76,11 +76,6 @@
 #operationHeader
 {
 	width: 250px;
-}
-
-#operationHeader2
-{
-	width: 200px;
 }
 
 #viewButton
@@ -146,24 +141,4 @@ a.nav-link
     height: auto;
     max-height: 200px;
     overflow-x: hidden;
-}
-
-.buttonBottom
-{
-	margin-top: 110px;
-}
-
-label.error
-{
-	 color: #af0135;
-}
-
-.navbar-default
-{
-	background-color: #343a40;
-}
-
-.footerFirst
-{
-	color: #ffffff;
 }

@@ -1,27 +1,17 @@
+	<?php include "head.php"?>
+	
 	<body>
   
 	<div class="container">
 		
-		<?php 
-			include "head.php";
-			include "navigation.php";
-			
-			if(isset($_SESSION['loggedIn']) && isset($_SESSION['loggedRole']) && ($_SESSION['loggedRole'] ="Admin" || $_SESSION['loggedRole'] ="Senior"))
-			{
-				$sql = "SELECT * FROM user";
-				
-				$sql = mysqli_query($conn,$sql) or die(mysqli_error($conn));
-			}
-			else
-			{
-				echo "<script type='text/javascript'>window.location.href = 'home.php';</script>";
-				exit();
-			}
-		?>
-
+		<!--Navigation Bar-->
+		<?php include "navigation.php"?>
+		
+		<br><br>
+		
 		
 		<!--Card-->
-		<div class="container mt-5">
+		<div class="container">
 		
 			<h1>Album</h1>
 			

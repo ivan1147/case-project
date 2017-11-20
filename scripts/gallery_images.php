@@ -1,25 +1,18 @@
+	<?php include "head.php"?>
+	
+	
 	<body>
   
 	<div class="container">
 		
-		<?php 
-			include "head.php";
-			include "navigation.php";
+		<!--Navigation Bar-->
+		<?php include "navigation.php"?>
 		
-			if(isset($_SESSION['loggedIn']) && isset($_SESSION['loggedRole']))
-			{
-			}
-			else
-			{
-				echo "<script type='text/javascript'>window.location.href = 'home.php';</script>";
-				exit();
-			}
-		
-		?>
+		<br><br>
 		
 		
 		<!--Card-->
-		<div class="container mt-5">
+		<div class="container">
 		
 			<h1>Imma Megastar Tour Asia</h1>
 			
@@ -106,7 +99,7 @@
 				<div class="container">
 					<div class="row">		
 					<a  id="createItem" href="<?php echo 'gallery_images_upload.php' ?>" class="btn btn-info mt-3">Upload Image</a>
-					<ul class="pagination col-xl-4 mt-3 mx-auto">
+					<ul class="pagination col-sm-4 mt-3 mx-auto">
 						<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 						<li class="page-item"><a class="page-link" href="#">1</a></li>
 						<li class="page-item active"><a class="page-link" href="#">2</a></li>
