@@ -1,12 +1,24 @@
-	<?php include "head.php"?>
-	
-	
 	<body>
   
 	<div class="container">
 		
 		<!--Navigation Bar-->
-		<?php include "navigation.php"?>
+		<?php 
+			include "navigation.php";
+			include "head.php";
+			
+			if(isset($_SESSION['loggedIn']) && isset($_SESSION['loggedRole']))
+			{
+				$sql = "SELECT * FROM user";
+				
+				$sql = mysqli_query($conn,$sql) or die(mysqli_error($conn));
+			}
+			else
+			{
+				echo "<script type='text/javascript'>window.location.href = 'home.php';</script>";
+				exit();
+			}
+		?>
 		
 		
 		
@@ -22,7 +34,7 @@
 				<li class="breadcrumb-item active">Stage 1st Song</li>
 			</ul>
 			
-				<div class="sm-4">
+				<div class="xl-4">
 					<img id="elementWallpaper" class="card-img-top" src="/emax/resources/gallery-embargoed-until-midnight-on-sunday-4-october-19.jpg" alt="Card image cap">
 				</div>
 					
@@ -32,8 +44,8 @@
 				  <img id="triviaImage" class="d-flex mr-3" src="/emax/resources/img_avatar1.png" alt="Generic placeholder image">
 				  <div class="media-body">
 					<div class="row">
-					<h5 class="col-sm-2 mt-0">ivan1147</h5>
-					<span class="col-sm-2">2017-07-14</span>
+					<h5 class="col-xl-2 mt-0">ivan1147</h5>
+					<span class="col-xl-2">2017-07-14</span>
 					<div class="dropdown col-sm-1 ml-auto">
 					  <button id="dropdownOption" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					  </button>
@@ -51,8 +63,8 @@
 				  <img id="triviaImage" class="d-flex mr-3" src="/emax/resources/img_avatar2.png" alt="Generic placeholder image">
 				  <div class="media-body">
 					<div class="row">
-					<h5 class="col-sm-2 mt-0">simon1147</h5>
-					<span class="col-sm-2">2017-07-05</span>
+					<h5 class="col-xl-2 mt-0">simon1147</h5>
+					<span class="col-xl-2">2017-07-05</span>
 					 <div class="dropdown col-sm-1 ml-auto">
 					  <button id="dropdownOption" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					  </button>
@@ -68,7 +80,18 @@
 				
 				<hr>
 				
-				<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Add Comment</button>
+				<div class="container">
+					<div class="row">
+						<button id="createItem" type="button" class="btn btn-info mt-3" data-toggle="modal" data-target="#myModal">Add Comment</button>
+						<ul class="pagination col-xl-4 mt-3 mx-auto">
+							<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+							<li class="page-item"><a class="page-link" href="#">1</a></li>
+							<li class="page-item active"><a class="page-link" href="#">2</a></li>
+							<li class="page-item"><a class="page-link" href="#">3</a></li>
+							<li class="page-item"><a class="page-link" href="#">Next</a></li>
+						</ul>
+					</div>
+				</div>
 			
 				<div class="modal fade" id="myModal">
 					<div class="modal-dialog">
@@ -105,7 +128,7 @@
 				
 				</div>
 			
-			
+				
 			
 			
 		</div>

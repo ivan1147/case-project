@@ -1,24 +1,32 @@
-	<?php include "head.php"?>
-	
 	<body>
   
 	<div class="container">
 		
-		<!--Navigation Bar-->
-		<?php include "navigation.php"?>
+		<?php 
+			include "head.php";
+			include "navigation.php";
 		
-		<br><br>
+			if(isset($_SESSION['loggedIn']) && isset($_SESSION['loggedRole']))
+			{
+			}
+			else
+			{
+				echo "<script type='text/javascript'>window.location.href = 'home.php';</script>";
+				exit();
+			}
 		
+		?>
 		
+
 		<!--Card-->
-		<div class="container">
+		<div class="container mt-5">
 		
 			<h1>Gallery</h1>
 			
 			<ul class="breadcrumb">
 			  <li class="breadcrumb-item"><a href="<?php echo 'home.php' ?>">Home</a></li>
 			  <li class="breadcrumb-item active">Gallery</li>
-			  <input id="searchEvent" class="col-sm-4 ml-auto" type="email" class="form-control" id="email">
+			  <input id="searchEvent" class="col-xl-4 ml-auto" type="email" class="form-control" id="email">
 			</ul>
 			
 			
@@ -30,7 +38,7 @@
 					  <div class="col-xl-4">
 					  <img id="imageCard" class="card-img-top" src="/emax/resources/x-factor-live-show-1-p2-5.jpg" alt="Card image cap">
 					  </div>
-					  <div class="col-sm-8 pt-3">
+					  <div class="col-xl-8 pt-3">
 						  <div class="card-block">
 							<h4 class="card-title">Tue, OCT 13 2.00 pm</h4>
 							<h3 class="card-title">Imma Megastar Tour Asia</h4>
@@ -47,7 +55,7 @@
 					  <div class="col-xl-4">
 					  <img id="imageCard" class="card-img-top" src="/emax/resources/x-factor-2015-finalists-small-5.jpg" alt="Card image cap">
 					  </div>
-					  <div class="col-sm-8 pt-3">
+					  <div class="col-xl-8 pt-3">
 					  
 						  <div class="card-block">
 							<h4 class="card-title">Wed, Nov 8.00pm</h4>
@@ -66,7 +74,7 @@
 					  <div class="col-xl-4">
 					  <img id="imageCard" class="card-img-top" src="/emax/resources/2015xfactorwinner_louisajohnson.jpg" alt="Card image cap">
 					  </div>
-					  <div class="col-sm-8 pt-3">
+					  <div class="col-xl pt-3">
 					  
 						  <div class="card-block">
 							<h4 class="card-title">Fri, DEC 12 6.00pm</h4>
@@ -82,7 +90,7 @@
 			</div>
 			
 			
-			<ul class="pagination col-sm-4 pt-4 mx-auto">
+			<ul class="pagination col-xl-4 pt-4 mx-auto">
 				<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 				<li class="page-item"><a class="page-link" href="#">1</a></li>
 				<li class="page-item active"><a class="page-link" href="#">2</a></li>

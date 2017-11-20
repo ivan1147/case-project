@@ -1,17 +1,25 @@
-	<?php include "head.php"?>
-	
 	<body>
   
 	<div class="container">
 		
-		<!--Navigation Bar-->
-		<?php include "navigation.php"?>
+		<?php 
+			include "head.php";
+			include "navigation.php";
 		
-		<br><br>
+			if(isset($_SESSION['loggedIn']) && isset($_SESSION['loggedRole']) && ($_SESSION['loggedRole'] ="Admin" || $_SESSION['loggedRole'] ="Senior"))
+			{
+			}
+			else
+			{
+				echo "<script type='text/javascript'>window.location.href = 'home.php';</script>";
+				exit();
+			}
 		
+		?>
+
 		
 		<!--Card-->
-		<div class="container">
+		<div class="container mt-5">
 		
 			<h1>Album Tour 2017</h1>
 			

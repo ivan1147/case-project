@@ -18,6 +18,31 @@ include "navigation.php";
 // 	exit();
 // }
 
+// if(isset($_GET['userId']))
+// {	
+// 	$userId = $_GET['userId'];
+	
+// 	$sql = "DELETE FROM user WHERE userId = '$userId'";
+// 	$sql  = mysqli_query($conn, $sql) or die("Error : ". mysqli_error($conn));
+	
+// 	if (mysqli_affected_rows($conn)> 0)
+// 	{
+// 		$_SESSION['adminProfile'] = "profile6";
+// 	}
+// 	else
+// 	{
+// 		$_SESSION['adminProfile'] = "profile7";
+// 	}
+// }
+
+// if(isset($_SESSION['adminProfile']))
+// {
+// 	echo "<script type='text/javascript'>
+// 			$(document).ready(function(){
+// 			$('#myModal10').modal('show');
+// 			});
+// 		</script>";
+// }
 
 //get row id from previous page
 if(isset($_GET['id'])){
@@ -36,7 +61,6 @@ if(isset($_GET['id'])){
 	if ($numResultCompetition > 0 ) {
 		if ($row= mysqli_fetch_assoc($queryResultCompetition)){
 			$competitionTitle = $row['title']; 
-			$status = $row['status']; 
 		}
 
 		//Assigning title string
@@ -110,9 +134,9 @@ if(isset($_GET['id'])){
 					echo "<td class=\"text-center\">$createdOn</td>";
 					echo "<td class=\"text-center\">";
 						echo "<a id=\"viewButton\" href=\"\" class=\"btn btn-secondary col-xl-3\">View</a> ";
-						echo '<button class="btn btn-secondary " onClick = "new_dialog(\'edit\', '.$formId.', '.$competitionId.')" id="displayBtn">Edit</button> ';
-						echo '<button class="btn btn-secondary " id="deleteBtn" onClick="delete_form('.$formId.')" >Delete </button> ';
-						echo '<button class="btn btn-secondary col-xl-3" onClick = "display_form('.$formId.','.$competitionId.',\''.$title.'\',\''.$display.'\')" id="displayBtn">Display</button>';
+						echo "<a id=\"updateButton\" href=\"\" class=\"btn btn-secondary col-xl-3\">Update</a> ";
+						echo "<a id=\"updateButton\" href=\"\" class=\"btn btn-secondary col-xl-3\">Delete</a> ";
+						echo '<button class="btn btn-secondary col-xl-3" onClick = "display_form('.$formId.','.$competitionId.',\''.$title.'\',\''.$display.'\')" id="displayBtn">Display </button>';
 					//onClick = "display_form('.$formId.','.$competitionId.',\''.$title.'\',\''.$display.'\')"
 					echo "</td>";
 					echo "</tr>";
@@ -126,7 +150,7 @@ if(isset($_GET['id'])){
 									
 			<!--Button and pagination-->
 			<div class="row">
-				<button class="btn btn-info mt-4" onclick="new_dialog('add','', <?php echo $competitionId; ?>)" >Create Form</button>
+				<a id="createItem" href="<?php echo 'discussion_create.php' ?>" class="btn btn-info mt-3">Create Form</a>
 				<ul class="pagination col-sm-4 mt-3 mx-auto">
 					<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 					<li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -140,12 +164,10 @@ if(isset($_GET['id'])){
 		<?php
 		} //end if numResultForm check 	
 		else {
-			//Assigning dummy data
-			$status = "EMP";
 			?>
 			<!--Button-->
 			<div class="row">		
-				<button class="btn btn-info mt-4" onclick="new_dialog('add','', <?php echo $competitionId; ?>)" >Create Form</button>
+				<a id="createItem" href="<?php echo 'discussion_create.php' ?>" class="btn btn-info mt-3">Create Form</a>
 			</div> 
 		<?php
 		}	 //end else 
@@ -159,21 +181,12 @@ else{ ?>
 	</div> 
 <?php } ?>
 
+	
+  
 <!--Footer-->
 <?php include "footer.php"?>
 
 </div> <!--Close whole page div-->   
-
-<!--Dialog Box-->
-<form>
-	<div id="add_dialog" >
-		<div id="add_dialog_result"></div>
-	</div>
-	<div id="edit_dialog" >
-		<div id="edit_dialog_result"></div>
-	</div>
-</form>
-
 
 <script>
 $(document).ready(function(){
@@ -183,116 +196,9 @@ $(document).ready(function(){
 		var button = jQuery("#formTbl button");
 		$(button).prop('disabled', true);
 	}
-	
-	//setting the size of dialog box
-	var myPos = { my: "center top", at: "center top+50", of: window };
-	$( "#add_dialog" ).dialog({
-		position: myPos,
-    	autoOpen: false,
-		width: 280,
-		title: 'Add New Form'
-    });
-	$( "#edit_dialog" ).dialog({
-		position: myPos,
-      	autoOpen: false,
-		width: 280,
-		title: 'Edit Form'
-    });
 });
 
-//Open Add & Edit dialogs ajax
-function new_dialog(status, formId, competitionId){
-	if(status=='add'){
-		$( "#add_dialog" ).dialog( "open" );
-		var div_result='#add_dialog_result';
-	}
-	else{
-		$( "#edit_dialog" ).dialog( "open" );
-		var div_result='#edit_dialog_result';
-	}
-	$.ajax({
-		type:"POST",
-		url: "admin_competition_form_manage_ajax.php",
-		data: {
-			"task":"open_dialog",
-			"status":status,
-			"formId":formId,
-			"competitionId": competitionId
-		},
-		success: function(data){
-			$(div_result).html(data);
-			//Add Function
-			$("#confirm_add").click(function(){
-				var data = $("#add_dialog #ajax_form").serialize();
-				var formTitle = $("#formTitle").val();
-				if(formTitle == '') {
-					alert ("Title is required");
-				} 
-				else {
-					$.ajax({
-						type:"POST",
-						url: "admin_competition_form_manage_ajax.php",
-						data: data+"&task=add_form",
-						success: function(html){ 
-							alert (html);
-							$('#add_dialog').dialog('close');
-							location.reload();
-						}
-					});
-				}
-				
-			});
-			$('#close_add_dialog').click(function(){
-					$('#add_dialog').dialog('close');
-			}); 
-			//Edit Function
-			$("#confirm_edit").click(function(){
-				var data = $("#edit_dialog #ajax_form").serialize();
-				var formTitle = $("#formTitle").val();
-				if(formTitle == '') {
-					alert ("Title is required");
-				} else {
-					$.ajax({
-						type:"POST",
-						url: "admin_competition_form_manage_ajax.php",
-						data: data+"&task=update_form",
-						success: function(html){ 
-							alert (html);
-							$('#edit_dialog').dialog('close');
-							location.reload();
-						}
-					});
-				}
-			}); 
-			$('#close_edit_dialog').click(function(){
-					$('#edit_dialog').dialog('close');
-			}); 
-		}
-	}); //end ajax
-}
-
-//Delete Button ajax
-function delete_form(formId){
-	if (confirm("Are you sure you want to delete this form?") == true) {
-	$.ajax({
-		url: "admin_competition_form_manage_ajax.php",
-		type: "POST",
-		data: {
-			"task":"form_delete",
-			"formId":formId
-		},
-		success: function (response) {
-			alert (response);    
-			location.reload();       
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			console.log(textStatus, errorThrown);
-		}
-	});
-	}
-}	
-
-//Display Button ajax
+//display form ajax
 function display_form(formId, competitionId, $title, $display, $status){
 	$.ajax({
 		url: "admin_competition_form_manage_ajax.php",
