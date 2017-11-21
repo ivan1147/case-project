@@ -8,63 +8,48 @@ include "navigation.php";
 
 //get row id from previous page
 if(isset($_GET['id'])){
-	$competitionId = $_GET['id'];	
-	//Assigning session data
-	$_SESSION['competitionId'] = $competitionId;
+	$formId = $_GET['id'];	
+	//Retrieve Session Data
+	$competitionIdSession = $_SESSION['competitionId'];
+	$competitionTitleSession = $_SESSION['competitionTitle'];
 
 	if(isset($_SESSION['loggedIn']) && isset($_SESSION['loggedRole']) && $_SESSION['loggedRole'] == "Admin")
 	{
-		//Retrieve competition data for --> Assigning title string
-		$queryCompetition = "SELECT * FROM competition WHERE competitionId = $competitionId";
-		$queryResultCompetition = mysqli_query($conn, $queryCompetition) or die (mysqli_connect_error());
-		$numResultCompetition = mysqli_num_rows($queryResultCompetition);
+		//Retrieve formTitle ---> title
+		$sqlForm = "SELECT title, display FROM form WHERE formId = $formId";
+		$resultForm = mysqli_query($conn, $sqlForm) or die (mysqli_connect_error());
+		if ($row = mysqli_fetch_assoc($resultForm)){
+			$formTitle = $row['title']; 
+			$formDisplay = $row['display']; 
+		}
 
 		//Retrieve data for table display
-		$queryForm = "SELECT * FROM form INNER JOIN competition ON form.competitionId = competition.competitionId WHERE form.competitionId = $competitionId";
-		$queryResultForm = mysqli_query($conn, $queryForm) or die (mysqli_connect_error());
-		$numResultForm = mysqli_num_rows($queryResultForm);
+		$sql = "SELECT * FROM question INNER JOIN form ON question.formId = form.formId WHERE question.formId = ".$formId;
+		$result = mysqli_query($conn, $sql) or die (mysqli_connect_error());
+		$numResult = mysqli_num_rows($result);
 	}
 	else
 	{
 		echo "<script type='text/javascript'>window.location.href = 'home.php';</script>";
 		exit();
 	}
-	
-	if ($numResultCompetition > 0 ) {
-		if ($row= mysqli_fetch_assoc($queryResultCompetition)){
-			$competitionTitle = $row['title']; 
-			$status = $row['status']; 
-		}
-
-		//Assigning title string
-		if ($competitionTitle == "10to13" ){
-			$competitionTitle = "Age 10 - 13";
-		}
-		else if($competitionTitle == "14to16"){
-			$competitionTitle = "Age 14 - 16";
-		}
-		else if($competitionTitle == "17to18"){
-			$competitionTitle = "Age 17 - 18";
-		}
-	
-	//Assigning session data
-	$_SESSION['competitionTitle'] = $competitionTitle;
 	?>
 
 	<!--Card-->
 	<div class="container mt-5">
-		<div id="message"><p class="text-danger">*Competition is currently ongoing, no changes are to be made</p></div>
-		<h1><?php echo $competitionTitle?></h1>
+		<div id="message"><p class="text-danger">*Form is currently displayed, no changes are to be made</p></div>
+		<h1><?php echo $formTitle?></h1>
 
 		<ul class="breadcrumb mb-0">
 			<li class="breadcrumb-item"><a href="<?php echo 'home.php' ?>">Home</a></li>
 			<li class="breadcrumb-item"><a href="<?php echo 'admin_competition_manage.php' ?>">Manage Competition</a></li>
-			<li class="breadcrumb-item active"><?php echo $competitionTitle?></li>
+			<li class="breadcrumb-item"><a href="<?php echo "admin_competition_form_manage.php?id=$competitionIdSession" ?>"><?php echo $competitionTitleSession?></a></li>
+			<li class="breadcrumb-item active"><?php echo $formTitle?></li>
 		</ul>
 
 		<?php
 		//fetch result row
-		if($numResultForm > 0) {
+		if($numResult > 0) {
 			?>
 			<!--Table-->
 			<div class="table-responsive">          
@@ -72,9 +57,8 @@ if(isset($_GET['id'])){
 				<thead>
 					<tr>
 						<th class="text-center">ID</th>
-						<th class="text-center">Title</th>
-						<th class="text-center">Display</th>
-						<th class="text-center">Number of Questions</th>
+						<th class="text-center">Question</th>
+						<th class="text-center">Type</th>
 						<th class="text-center">Created On</th>
 						<th class="text-center" colspan="2" id="operationHeader">Operation</th>
 					</tr>
@@ -83,38 +67,26 @@ if(isset($_GET['id'])){
 				<?php 
 				//declaring count for index 
 				$count = 1;
-				while($row = mysqli_fetch_array($queryResultForm)){
-					//form data
-					$formId = $row[0];
-					$title = $row[1];
-					$numQue = $row[2];
-					$competitionId = $row[3];
-					$display = $row[4];
-					$createdOn = $row[5];
+				while($row = mysqli_fetch_array($result)){
+					//question data
+					$questionId = $row[0];
+					$question = $row[1];
+					$type = $row[2];
+					$formId = $row[3];
+					$createdOn = $row[4];
+					
+					//if question more than ? characters display "..."
 
-					//competition data
-					$status = $row[11];
-											
-					//Assign string to status 
-					if ($display == 'Y'){
-						$display = "Yes";
-					}
-					else if ($display == 'N'){						
-						$display = "No";
-					}
-															
+
 					//Display table data
 					echo "<tr>";
 					echo "<td class=\"text-center\">".$count++."</td>";
-					echo "<td class=\"text-center\">$title</td>";
-					echo "<td class=\"text-center\">$display</td>";
-					echo "<td class=\"text-center\">$numQue</td>";
+					echo "<td class=\"text-center\">$question</td>";
+					echo "<td class=\"text-center\">$type</td>";
 					echo "<td class=\"text-center\">$createdOn</td>";
 					echo "<td class=\"text-center\">";
-						echo '<a id="viewButton" href="admin_competition_question_manage.php?id='.$formId.'" class="btn btn-secondary col-xl-3">View</a> ';
-						echo '<button class="btn btn-secondary " onClick = "new_dialog(\'edit\', '.$formId.', '.$competitionId.')" id="editBtn">Edit</button> ';
-						echo '<button class="btn btn-secondary " id="deleteBtn" onClick="delete_form('.$formId.')" >Delete </button> ';
-						echo '<button class="btn btn-secondary col-xl-3" onClick = "display_form('.$formId.','.$competitionId.',\''.$title.'\',\''.$display.'\','.$numQue.')" id="displayBtn">Display</button>';
+						echo '<button class="btn btn-secondary" id="editBtn">Edit</button> ';
+						echo '<button class="btn btn-secondary" id="deleteBtn">Delete </button> ';
 					echo "</td>";
 					echo "</tr>";
 					?>
@@ -141,8 +113,6 @@ if(isset($_GET['id'])){
 		<?php
 		} //end if numResultForm check 	
 		else {
-			//Assigning dummy data
-			$status = "EMP";
 			?>
 			<!--Button-->
 			<div class="row">		
@@ -150,8 +120,6 @@ if(isset($_GET['id'])){
 			</div> 
 		<?php
 		}	 //end else 
-
-	} //end numResultCompetition check
 } //end isset
 else{ ?>	
 	<div class="text-center">
@@ -179,8 +147,8 @@ else{ ?>
 <script>
 $(document).ready(function(){
 	$( "#message" ).hide();
-	var myvar = <?php echo json_encode($status); ?>;
-	if (myvar == "ONG") {
+	var myvar = <?php echo json_encode($formDisplay); ?>;
+	if (myvar == "Y") {
 		//$('#displayBtn').prop('disabled', true);
 		var button = jQuery("#formTbl button");
 		$(button).prop('disabled', true);

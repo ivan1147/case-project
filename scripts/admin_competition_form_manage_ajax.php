@@ -8,48 +8,55 @@ $competitionNumResult = mysqli_num_rows($resultCompetition);
 
 #Display Function
 if($_POST["task"] == "display_form"){
-    $formId = $_POST["formId"];
-    $competitionId = $_POST["competitionId"];
-    $formTitle = $_POST["formTitle"];
-    $formDisplay = $_POST['formDisplay'];
-    $display = "Y";
+  $formId = $_POST["formId"];
+  $competitionId = $_POST["competitionId"];
+  $formTitle = $_POST["formTitle"];
+  $formDisplay = $_POST['formDisplay'];
+  $display = "Y";
+  $numQue = $_POST['numQue'];
 
-    if ($formDisplay == "Yes") {
-      //Check if all competition status is Pending or not
-      if($competitionNumResult > 0) {
-        echo "Competition is Pending, at least one form must be displayed";
-      } 
-      else {
-        $sqlRevert = "UPDATE form
-                      INNER JOIN competition
-                        ON form.competitionId = competition.competitionId 
-                      SET form.display = 'N'
-                      WHERE form.competitionId = '".$competitionId."'
-                      AND form.formId = '".$formId."'";
-        mysqli_query($conn,$sqlRevert);
-        echo $formTitle." is not displayed anymore";     
-      }    
-    }
-    else if($formDisplay == "No") {
+    
+  if ($formDisplay == "Yes") {
+  //Check if all competition status is Pending or not
+    if($competitionNumResult > 0) {
+      echo "Competition is Pending, at least one form must be displayed";
+    } 
+    else {
+      $sqlRevert = "UPDATE form
+                    INNER JOIN competition
+                      ON form.competitionId = competition.competitionId 
+                    SET form.display = 'N'
+                    WHERE form.competitionId = '".$competitionId."'
+                    AND form.formId = '".$formId."'";
+      mysqli_query($conn,$sqlRevert);
+      echo $formTitle." is not displayed anymore";     
+    }    
+  }
+  else if($formDisplay == "No") {
+    if($numQue > 0) {
       $sqlY = "UPDATE form
-              INNER JOIN competition
+               INNER JOIN competition
                   ON form.competitionId = competition.competitionId 
-              SET form.display = 'Y'
-              WHERE form.competitionId = '".$competitionId."'
+               SET form.display = 'Y'
+               WHERE form.competitionId = '".$competitionId."'
                AND form.formId = '".$formId."'";
 
       $sqlN = "UPDATE form
-              INNER JOIN competition
-                  ON form.competitionId = competition.competitionId 
-              SET form.display = 'N'
-              WHERE form.competitionId = '".$competitionId."'
-              AND form.formId != '".$formId."'";
+               INNER JOIN competition
+                    ON form.competitionId = competition.competitionId 
+               SET form.display = 'N'
+               WHERE form.competitionId = '".$competitionId."'
+               AND form.formId != '".$formId."'";
       mysqli_query($conn,$sqlY);
       mysqli_query($conn,$sqlN);
 
       echo $formTitle." is now displayed";
+    }
+    else {
+      echo "Number of question must be more than 0 in order to display form";
     } 
- }
+  }
+}
 
 #Add Dialog & Edit Dialog
 else if($_POST['task'] == 'open_dialog') {

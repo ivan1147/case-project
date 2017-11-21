@@ -7,28 +7,26 @@
 include "head.php";
 include "navigation.php";	
 
-// if(isset($_SESSION['loggedIn']) && isset($_SESSION['loggedRole']) && $_SESSION['loggedRole'] == "Admin")
-// {
-// 	$sql = "SELECT * FROM user WHERE role!='Admin'";
-
-// 	$sql = mysqli_query($conn,$sql) or die(mysqli_error($conn));
-// }
-// else
-// {
-// 	echo "<script type='text/javascript'>window.location.href = 'home.php';</script>";
-// 	exit();
-// }
-
-				
-//Retrieve all data from competition table
-$sql = "SELECT * FROM competition";
-$result = mysqli_query($conn, $sql) or die (mysqli_connect_error());
-$numResult = mysqli_num_rows($result);
-
+if(isset($_SESSION['loggedIn']) && isset($_SESSION['loggedRole']) && $_SESSION['loggedRole'] == "Admin")
+{	
+	//Retrieve all data from competition table
+	$sql = "SELECT * FROM competition";
+	$result = mysqli_query($conn, $sql) or die (mysqli_connect_error());
+	$numResult = mysqli_num_rows($result);
+}
+else
+{
+	echo "<script type='text/javascript'>window.location.href = 'home.php';</script>";
+	exit();
+}
+			
 ?>
 
 <!--Card-->
 <div class="container mt-5">
+	<div id="messageOng"><p class="text-danger">*Competition is currently ongoing, no changes are to be made</p></div>
+	<div id="messageDateChange"><p class="text-danger">*Change the date to proceed</p></div>
+
 	<h1> Manage Competition</h1>
 			
 	<ul class="breadcrumb mb-0">
@@ -218,13 +216,22 @@ $numResult = mysqli_num_rows($result);
 					
 <script>
 $(document).ready(function(){
+	//hide warning messages
+	$("#messageOng").hide();
+	$("#messageDateChange").hide();
+
 	//disable buttons
 	var myvar = <?php echo json_encode($status); ?>;
 	if (myvar == "Ongoing" ) {
 		$('#displayBtn').prop('disabled', true);
 		$('#changeDate').attr("disabled","disabled");
+		$("#messageOng").show();
 	}
-	else if(myvar=="Ended" || myvar=="Pending" || myvar =="Unavailable") {
+	else if(myvar=="Ended" || myvar =="Unavailable") {
+		$('#displayBtn').prop('disabled', true);
+		$("#messageDateChange").show();
+	}
+	else if(myvar=="Pending") {
 		$('#displayBtn').prop('disabled', true);
 	}
 
