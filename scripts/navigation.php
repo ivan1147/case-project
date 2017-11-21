@@ -159,7 +159,7 @@
 			$sqlTest = "UPDATE user SET emailActivation='True' WHERE username='$username'";
 			$sqlTest = mysqli_query($conn, $sqlTest) or die("Error : ". mysqli_error($conn));
 			
-			echo "<script type='text/javascript'>window.location.href = 'home.php';</script>";	
+			echo "<script type='text/javascript'>window.location.href = 'index.php';</script>";	
 		}
 		
 	
@@ -174,7 +174,7 @@
 	
 	if(isset($_SESSION['loggedIn']) && isset($_SESSION['loggedRole']) && $_SESSION['loggedRole'] == "Admin")
 	{
-		echo"<a class='navbar-brand' href='home.php'>Emax</a>
+		echo"<a class='navbar-brand' href='index.php'>Emax</a>
 		<button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#collapsibleNavbar'>
 		<span class='navbar-toggler-icon'></span>
 		</button>
@@ -230,7 +230,7 @@
 	}
 	elseif(isset($_SESSION['loggedIn']) && isset($_SESSION['loggedRole']) && $_SESSION['loggedRole'] == "Senior")
 	{
-		echo"<a class='navbar-brand' href='home.php'>Emax</a>
+		echo"<a class='navbar-brand' href='index.php'>Emax</a>
 		<button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#collapsibleNavbar'>
 		<span class='navbar-toggler-icon'></span>
 		</button>
@@ -275,7 +275,7 @@
 	}
 	elseif(isset($_SESSION['loggedIn']) && isset($_SESSION['loggedRole']) && $_SESSION['loggedRole'] == "Junior")
 	{
-		echo"<a class='navbar-brand' href='home.php'>Emax</a>
+		echo"<a class='navbar-brand' href='index.php'>Emax</a>
 		<button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#collapsibleNavbar'>
 		<span class='navbar-toggler-icon'></span>
 		</button>
@@ -322,7 +322,7 @@
 	}
 	else
 	{
-		echo"<a class='navbar-brand' href='home.php'>Emax</a>
+		echo"<a class='navbar-brand' href='index.php'>Emax</a>
 		<button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#collapsibleNavbar'>
 		<span class='navbar-toggler-icon'></span>
 		</button>
