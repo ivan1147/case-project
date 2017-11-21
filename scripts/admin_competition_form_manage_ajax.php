@@ -81,7 +81,7 @@ else if($_POST['task'] == 'open_dialog') {
   <form id="ajax_form">
     <table width="50%" border="0" class="xtab">
       <tr>
-        <!-- Passing Id -->
+        <!-- Passing & Retrieve Id -->
         <td> 
           <input type="hidden" name="formId" id="formId" value="<?php echo $formId ?>"> 
           <input type="hidden" name="competitionId" id="competitionId" value="<?php echo $competitionId ?>"> 

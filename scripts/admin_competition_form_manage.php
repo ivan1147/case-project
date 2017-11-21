@@ -26,7 +26,7 @@ if(isset($_GET['id'])){
 	}
 	else
 	{
-		echo "<script type='text/javascript'>window.location.href = 'home.php';</script>";
+		echo "<script type='text/javascript'>window.location.href = 'index.php';</script>";
 		exit();
 	}
 	

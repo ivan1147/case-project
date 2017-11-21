@@ -16,7 +16,7 @@ if(isset($_SESSION['loggedIn']) && isset($_SESSION['loggedRole']) && $_SESSION['
 }
 else
 {
-	echo "<script type='text/javascript'>window.location.href = 'home.php';</script>";
+	echo "<script type='text/javascript'>window.location.href = 'index.php';</script>";
 	exit();
 }
 			
