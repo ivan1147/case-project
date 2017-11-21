@@ -215,7 +215,7 @@
 					<a class='dropdown-item' href='admin_user_activity_manage.php'>User Activity Management</a>
 					<a class='dropdown-item' href='#'>Auction Management</a>
 					<a class='dropdown-item' href='#'>Gallery Management</a>
-					<a class='dropdown-item' href='#'>Competition Management</a>
+					<a class='dropdown-item' href='admin_competition_manage.php'>Competition Management</a>
 					<a class='dropdown-item' href='#'>Discussion Management</a>
 				</div>
 			</li>
