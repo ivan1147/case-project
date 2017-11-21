@@ -16,7 +16,7 @@
 	
 	if(!$_SESSION['loggedIn'])
 	{
-		header('Location: home.php');
+		header('Location: index.php');
 	}
 			
 ?>

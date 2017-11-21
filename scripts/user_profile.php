@@ -19,7 +19,7 @@
 		}
 		else
 		{
-			echo "<script type='text/javascript'>window.location.href = 'home.php';</script>";
+			echo "<script type='text/javascript'>window.location.href = 'index.php';</script>";
 			exit();
 		}
 		
@@ -214,7 +214,7 @@
 		<h1>User Profile</h1>
 		
 		<ul class="breadcrumb">
-		  <li class="breadcrumb-item"><a href="<?php echo 'home.php' ?>">Home</a></li>
+		  <li class="breadcrumb-item"><a href="<?php echo 'index.php' ?>">Home</a></li>
 		  <li class="breadcrumb-item active">User Profile</li>
 		</ul>
 		

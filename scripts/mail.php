@@ -39,7 +39,7 @@ try {
 					<h1>Thank you for registering your account</h1> 
 					<p>Dear ".$_SESSION['fullName']."</p>
 					<p>Please click on the follwing link ro activate and login your account</p>
-					<p>https://student.kdupg.edu.my/emax/scripts/home.php?username=".$_SESSION['username']."&activationCode=".$_SESSION['activationCode']."</p></div>";
+					<p>https://student.kdupg.edu.my/emax/scripts/index.php?username=".$_SESSION['username']."&activationCode=".$_SESSION['activationCode']."</p></div>";
 					
     //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 	//$mail->addAddress($_SESSION['emailAddress'], $_SESSION['fullname']);
@@ -48,7 +48,7 @@ try {
     $mail->send();
     echo 'Message has been sent';
 	
-	header("Location: home.php");
+	header("Location: index.php");
 	
 } 
 catch (Exception $e) 

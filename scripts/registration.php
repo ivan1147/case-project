@@ -189,7 +189,7 @@
 			
 			<!-- Modal footer -->
 			<div class="modal-footer">
-			  <a href="home.php" class="btn btn-secondary">Go To Home Page</a>
+			  <a href="index.php" class="btn btn-secondary">Go To Home Page</a>
 			</div>
 		</div>
 		

@@ -122,7 +122,7 @@
 		<h1> Update User</h1>
 		
 		<ul class="breadcrumb">
-		  <li class="breadcrumb-item"><a href="<?php echo 'home.php' ?>">Home</a></li>
+		  <li class="breadcrumb-item"><a href="<?php echo 'index.php' ?>">Home</a></li>
 		  <li class="breadcrumb-item"><a href="<?php echo 'admin_user_manage.php' ?>">Manage User</a></li>
 		  <li class="breadcrumb-item active">Update User</li>
 		</ul>

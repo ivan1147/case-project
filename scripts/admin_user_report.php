@@ -21,7 +21,7 @@
 			}
 			else
 			{
-				echo "<script type='text/javascript'>window.location.href = 'home.php';</script>";
+				echo "<script type='text/javascript'>window.location.href = 'index.php';</script>";
 				exit();
 			}
 			
@@ -66,7 +66,7 @@
 			<h1>User Statistical Report</h1>
 
 			<ul class="breadcrumb mb-0">
-				<li class="breadcrumb-item"><a href="<?php echo 'home.php' ?>">Home</a></li>
+				<li class="breadcrumb-item"><a href="<?php echo 'index.php' ?>">Home</a></li>
 				<li class="breadcrumb-item"><a href="<?php echo 'admin_user_manage.php' ?>">User Management</a></li>
 				<?php echo"<li class='breadcrumb-item'><a href='admin_user_profile.php?userId=$userId'>User Profile</a></li>
 				<li class='breadcrumb-item active'>User Statistical Report</li>";?>

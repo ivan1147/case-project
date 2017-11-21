@@ -49,7 +49,7 @@
 				if($_SESSION['emailActivation'] == "False")
 				{
 					$_SESSION['errorActivation'] = "The account is not activated yet. Please check your email.";
-					header('Location: home.php');
+					header('Location: index.php');
 				}
 				else 
 				{			
@@ -63,7 +63,7 @@
 						$link = "user_profile";
 						$sql = "INSERT INTO activity(ipAddress, name, categoryId, userId) VALUES('$ipAddress', '$name', 1, '$userId')";
 						$sql  = mysqli_query($conn, $sql) or die("Error : ". mysqli_error($conn));
-						header('Location: home.php');
+						header('Location: index.php');
 					}
 					
 				}

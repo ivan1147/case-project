@@ -16,7 +16,7 @@
 		}
 		else
 		{
-			echo "<script type='text/javascript'>window.location.href = 'home.php';</script>";
+			echo "<script type='text/javascript'>window.location.href = 'index.php';</script>";
 			exit();
 		}
 		
@@ -38,7 +38,7 @@
 		<h1>Manage User Activity</h1>
 		
 		<ul class="breadcrumb">
-			<li class="breadcrumb-item"><a href="<?php echo 'home.php' ?>">Home</a></li>
+			<li class="breadcrumb-item"><a href="<?php echo 'index.php' ?>">Home</a></li>
 			<li class="breadcrumb-item active">Manage User Activity</li>
 
 		</ul>
@@ -75,7 +75,7 @@
 								}
 								else
 								{
-									$link2 = "<td><a href='$link.php?userId=$userId' class='btn btn-secondary'>View</a></td>";
+									$link2 = "<td><a href='$link' class='btn btn-secondary'>View</a></td>";
 								}
 								
 								echo"<tr>
