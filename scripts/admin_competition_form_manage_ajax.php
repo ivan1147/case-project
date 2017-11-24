@@ -72,6 +72,7 @@ else if($_POST['task'] == 'open_dialog') {
     
     $formId = $row["formId"];
     $formTitle = $row["title"];
+    
   }
   else{
     $formId = 0;
@@ -87,7 +88,7 @@ else if($_POST['task'] == 'open_dialog') {
           <input type="hidden" name="competitionId" id="competitionId" value="<?php echo $competitionId ?>"> 
         </td>
         <td>Title</td>
-        <td colspan="3"> <input type="text" name="formTitle" id="formTitle" value='<?php  echo $formTitle ?>'> </td>
+        <td colspan="3"> <input type="text" name="formTitle" id="formTitle" value="<?php  echo $formTitle ;?>"> </td>
       </tr>
       <!-- Blank row -->
       <tr><td><br/></td></tr>
@@ -119,7 +120,7 @@ else if($_POST['task']=="add_form"){
   //Hidden field from form
   $competitionId = $_POST["competitionId"];
   //Field from form
-  $formTitle = $_POST["formTitle"];
+  $formTitle = mysqli_real_escape_string($conn, $_POST["formTitle"]);
 
   //Retrieve form data for duplicate data comparison
   $sqlExist = "SELECT title FROM form WHERE title = '".$formTitle."' AND competitionId = ".$competitionId ;
@@ -150,7 +151,7 @@ else if($_POST['task']=="update_form"){
   $formId = $_POST["formId"];
   $competitionId = $_POST["competitionId"];
   //Field from form
-  $formTitle = $_POST["formTitle"];
+  $formTitle = mysqli_real_escape_string($conn, $_POST["formTitle"]);
 
   //Retrieve form data for duplicate data comparison
   $sqlExist = "SELECT title FROM form WHERE title = '".$formTitle."' AND competitionId = ".$competitionId ;

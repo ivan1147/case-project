@@ -64,13 +64,13 @@ if($_POST['task'] == 'open_add_dialog') {
 #Add Function
 else if($_POST['task']=="add_question"){
   //Retrieve fields
-  $question = $_POST["question"];
+  $question = mysqli_real_escape_string($conn, $_POST["question"]);
   $type = $_POST["type"];
-  $answerForm = $_POST["answerForm"];
-  $answerMul1C = $_POST["answerMul1C"];
-  $answerMul2 = $_POST["answerMul2"];
-  $answerMul3 = $_POST["answerMul3"];
-  $answerMul4 = $_POST["answerMul4"];
+  $answerForm = mysqli_real_escape_string($conn, $_POST["answerForm"]);
+  $answerMul1C = mysqli_real_escape_string($conn, $_POST["answerMul1C"]);
+  $answerMul2 = mysqli_real_escape_string($conn, $_POST["answerMul2"]);
+  $answerMul3 = mysqli_real_escape_string($conn,$_POST["answerMul3"]);
+  $answerMul4 = mysqli_real_escape_string($conn, $_POST["answerMul4"]);
   //hidden data
   $formId = $_POST["formId"];
 
@@ -239,14 +239,14 @@ else if($_POST['task'] == 'open_edit_dialog') {
 #Edit Function
 else if($_POST['task']=="update_question"){
   //Retrieve fields
-  $question = $_POST["question"];
+  $question = mysqli_real_escape_string($conn, $_POST["question"]);
   //hidden data
   $questionId = $_POST["questionId"];
   $formId = $_POST["formId"];
   $type = $_POST["type"];
 
   if($type == 'FORM') {
-    $answerForm = $_POST["answerForm"];
+    $answerForm = mysqli_real_escape_string($conn, $_POST["answerForm"]);
     $sql = "UPDATE question t1 
             JOIN answer t2 ON (t1.questionId = t2.questionId) 
             SET t1.question = '$question', 
@@ -263,10 +263,10 @@ else if($_POST['task']=="update_question"){
     mysqli_close($conn);
   }
   else if($type == 'MUL') {
-    $answerMul1C = $_POST["answerMul1C"];
-    $answerMul2 = $_POST["answerMul2"];
-    $answerMul3 = $_POST["answerMul3"];
-    $answerMul4 = $_POST["answerMul4"];
+    $answerMul1C = mysqli_real_escape_string($conn, $_POST["answerMul1C"]);
+    $answerMul2 = mysqli_real_escape_string($conn, $_POST["answerMul2"]);
+    $answerMul3 = mysqli_real_escape_string($conn,$_POST["answerMul3"]);
+    $answerMul4 = mysqli_real_escape_string($conn, $_POST["answerMul4"]);
     $sql = "UPDATE question t1
             JOIN answer t2 ON (t1.questionId = t2.questionId)
             SET t1.question = '$question',

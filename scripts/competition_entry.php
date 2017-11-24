@@ -99,6 +99,8 @@ $competitionStatus = $row['status'];
 <!--Footer-->
 <?php include "footer.php"?>
 
+</div>
+
 <!--Dialog Box-->
 <form>
 	<div id="user_dialog" >
