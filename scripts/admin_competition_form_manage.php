@@ -57,7 +57,7 @@ if(isset($_GET['id'])){
 		<h1><?php echo $competitionTitle?></h1>
 
 		<ul class="breadcrumb mb-0">
-			<li class="breadcrumb-item"><a href="<?php echo 'home.php' ?>">Home</a></li>
+			<li class="breadcrumb-item"><a href="<?php echo 'index.php' ?>">Home</a></li>
 			<li class="breadcrumb-item"><a href="<?php echo 'admin_competition_manage.php' ?>">Manage Competition</a></li>
 			<li class="breadcrumb-item active"><?php echo $competitionTitle?></li>
 		</ul>

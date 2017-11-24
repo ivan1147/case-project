@@ -30,7 +30,7 @@ if(isset($_GET['id'])){
 	}
 	else
 	{
-		echo "<script type='text/javascript'>window.location.href = 'home.php';</script>";
+		echo "<script type='text/javascript'>window.location.href = 'index.php';</script>";
 		exit();
 	}
 	?>
@@ -41,7 +41,7 @@ if(isset($_GET['id'])){
 		<h1><?php echo $formTitle?></h1>
 
 		<ul class="breadcrumb mb-0">
-			<li class="breadcrumb-item"><a href="<?php echo 'home.php' ?>">Home</a></li>
+			<li class="breadcrumb-item"><a href="<?php echo 'index.php' ?>">Home</a></li>
 			<li class="breadcrumb-item"><a href="<?php echo 'admin_competition_manage.php' ?>">Manage Competition</a></li>
 			<li class="breadcrumb-item"><a href="<?php echo "admin_competition_form_manage.php?id=$competitionIdSession" ?>"><?php echo $competitionTitleSession?></a></li>
 			<li class="breadcrumb-item active"><?php echo $formTitle?></li>
@@ -85,8 +85,8 @@ if(isset($_GET['id'])){
 					echo "<td class=\"text-center\">$type</td>";
 					echo "<td class=\"text-center\">$createdOn</td>";
 					echo "<td class=\"text-center\">";
-						echo '<button class="btn btn-secondary" id="editBtn">Edit</button> ';
-						echo '<button class="btn btn-secondary" id="deleteBtn">Delete </button> ';
+						echo '<button class="btn btn-secondary" id="editBtn"  onClick = "new_dialog(\'edit\', '.$questionId.','.$formId.')" >Edit</button> ';
+						echo '<button class="btn btn-secondary" id="deleteBtn" onClick="delete_question('.$questionId.','.$formId.')" >Delete </button> ';
 					echo "</td>";
 					echo "</tr>";
 					?>
@@ -99,7 +99,7 @@ if(isset($_GET['id'])){
 									
 			<!--Button and pagination-->
 			<div class="row">
-				<button class="btn btn-info mt-4" onclick="new_dialog('add','', <?php echo $competitionId; ?>)" >Create Form</button>
+				<button class="btn btn-info mt-4" id="createBtn" onclick="new_dialog('add','', <?php echo $formId; ?>)" >Create Question</button>
 				<ul class="pagination col-sm-4 mt-3 mx-auto">
 					<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 					<li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -116,7 +116,7 @@ if(isset($_GET['id'])){
 			?>
 			<!--Button-->
 			<div class="row">		
-				<button class="btn btn-info mt-4" onclick="new_dialog('add','', <?php echo $competitionId; ?>)" >Create Form</button>
+				<button class="btn btn-info mt-4" id="createBtn" onclick="new_dialog('add','', <?php echo $formId; ?>)" >Create Question</button>
 			</div> 
 		<?php
 		}	 //end else 
@@ -134,14 +134,9 @@ else{ ?>
 </div> <!--Close whole page div-->   
 
 <!--Dialog Box-->
-<form>
-	<div id="add_dialog" >
-		<div id="add_dialog_result"></div>
-	</div>
-	<div id="edit_dialog" >
-		<div id="edit_dialog_result"></div>
-	</div>
-</form>
+<div id="dialogBox" >
+	<div id='dialogBox_result'>
+</div>
 
 
 <script>
@@ -149,108 +144,108 @@ $(document).ready(function(){
 	$( "#message" ).hide();
 	var myvar = <?php echo json_encode($formDisplay); ?>;
 	if (myvar == "Y") {
-		//$('#displayBtn').prop('disabled', true);
+		$('#createBtn').prop('disabled', true);
 		var button = jQuery("#formTbl button");
 		$(button).prop('disabled', true);
 		$( "#message" ).show();
 	}
-	
-	//setting the size of dialog box
-	var myPos = { my: "center top", at: "center top+50", of: window };
-	$( "#add_dialog" ).dialog({
-		position: myPos,
-    	autoOpen: false,
-		width: 280,
-		title: 'Add New Form'
-    });
-	$( "#edit_dialog" ).dialog({
-		position: myPos,
-      	autoOpen: false,
-		width: 280,
-		title: 'Edit Form'
-    });
 });
 
-//Open Add & Edit dialogs ajax
-function new_dialog(status, formId, competitionId){
-	if(status=='add'){
-		$( "#add_dialog" ).dialog( "open" );
-		var div_result='#add_dialog_result';
+//Open Dialog Box
+var myPos = { my: "center top", at: "center top+50", of: window };
+function new_dialog(add,questionId,formId){
+	if(add == 'add'){
+		//Add Dialog
+		//setting the size of dialog box
+		$( "#dialogBox" ).dialog({
+			position: myPos,
+			autoOpen: false,
+			width: 306,
+			title: 'Add New Question'
+		});
+		$( "#dialogBox" ).dialog( "open" );
+		$.ajax({
+			type: "POST",
+			url: "admin_competition_question_manage_ajax.php",
+			data: {
+				"task":"open_add_dialog",
+				"formId":formId
+			},
+			success: function(data){
+				$("#dialogBox_result").html(data);
+			} 
+		});	
 	}
-	else{
-		$( "#edit_dialog" ).dialog( "open" );
-		var div_result='#edit_dialog_result';
+	else{ 
+		//Edit Dialog
+		//setting the size of dialog box
+		$( "#dialogBox" ).dialog({
+			position: myPos,
+			autoOpen: false,
+			width: 306,
+			title: 'Edit Question'
+		});
+		$( "#dialogBox" ).dialog( "open" );
+		$.ajax({
+			type: "POST",
+			url: "admin_competition_question_manage_ajax.php",
+			data: {
+				"task":"open_edit_dialog",
+				"questionId":questionId,				
+				"formId":formId
+			},
+			success: function(data){
+				$("#dialogBox_result").html(data);
+			}	
+		});	
 	}
+}	
+
+//Close Dialog Box Function
+function close_dialog(){
+	$("#dialogBox").dialog("close");
+}
+
+//Add Function
+function confirm_add(){
+	var data = $("#dialogBox #ajax_add").serialize();
 	$.ajax({
 		type:"POST",
-		url: "admin_competition_form_manage_ajax.php",
-		data: {
-			"task":"open_dialog",
-			"status":status,
-			"formId":formId,
-			"competitionId": competitionId
-		},
-		success: function(data){
-			$(div_result).html(data);
-			//Add Function
-			$("#confirm_add").click(function(){
-				var data = $("#add_dialog #ajax_form").serialize();
-				var formTitle = $("#formTitle").val();
-				if(formTitle == '') {
-					alert ("Title is required");
-				} 
-				else {
-					$.ajax({
-						type:"POST",
-						url: "admin_competition_form_manage_ajax.php",
-						data: data+"&task=add_form",
-						success: function(html){ 
-							alert (html);
-							$('#add_dialog').dialog('close');
-							location.reload();
-						}
-					});
-				}
-				
-			});
-			$('#close_add_dialog').click(function(){
-					$('#add_dialog').dialog('close');
-			}); 
-			//Edit Function
-			$("#confirm_edit").click(function(){
-				var data = $("#edit_dialog #ajax_form").serialize();
-				var formTitle = $("#formTitle").val();
-				if(formTitle == '') {
-					alert ("Title is required");
-				} else {
-					$.ajax({
-						type:"POST",
-						url: "admin_competition_form_manage_ajax.php",
-						data: data+"&task=update_form",
-						success: function(html){ 
-							alert (html);
-							$('#edit_dialog').dialog('close');
-							location.reload();
-						}
-					});
-				}
-			}); 
-			$('#close_edit_dialog').click(function(){
-					$('#edit_dialog').dialog('close');
-			}); 
-		}
-	}); //end ajax
+		url: "admin_competition_question_manage_ajax.php",
+		data: data+"&task=add_question",
+		success:function(html){
+			alert (html);
+			$( "#dialogBox" ).dialog( "close" );
+			location.reload();
+		} 
+	});	
+}	
+
+//Edit Function
+function confirm_update(questionId){
+	var data = $("#dialogBox #ajax_edit").serialize();
+	$.ajax({
+		type:"POST",
+		url: "admin_competition_question_manage_ajax.php",
+		data: data+"&task=update_question",
+		success:function(html){
+			alert (html);
+			$( "#dialogBox" ).dialog( "close" );
+			location.reload();
+		} 
+	});	
 }
 
 //Delete Button ajax
-function delete_form(formId){
-	if (confirm("Are you sure you want to delete this form?") == true) {
+function delete_question(questionId, formId){
+	if (confirm("Are you sure you want to delete this question?") == true) {
 	$.ajax({
-		url: "admin_competition_form_manage_ajax.php",
+		url: "admin_competition_question_manage_ajax.php",
 		type: "POST",
 		data: {
-			"task":"form_delete",
-			"formId":formId
+			"task":"question_delete",
+			"questionId":questionId,
+			"formId": formId
 		},
 		success: function (response) {
 			alert (response);    
@@ -263,28 +258,7 @@ function delete_form(formId){
 	}
 }	
 
-//Display Button ajax
-function display_form(formId, competitionId, title, display, numQue){
-	$.ajax({
-		url: "admin_competition_form_manage_ajax.php",
-		type: "POST",
-		data: {
-			"task":"display_form",
-			"formId":formId,
-			"competitionId": competitionId,
-			"formTitle": title,
-			"formDisplay": display,
-			"numQue": numQue
-		},
-		success: function (response) {
-			alert (response);  
-			location.reload();       
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			console.log(textStatus, errorThrown);
-		}
-	});
-}	
+	
 </script>
 
 </body>

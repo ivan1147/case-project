@@ -203,15 +203,16 @@ else if($_POST["task"] == "form_delete"){
     }
     //Delete data
     else {
-      $sql = "DELETE FROM form
-              WHERE formId = " .$formId;
-      mysqli_query($conn,$sql); 
-
-      if (mysqli_affected_rows($conn)> 0){
-      echo "Form Deleted";
+      $tables = array("answer","question", "form");
+      foreach($tables as $table) {
+        $query = "DELETE FROM $table WHERE formId='$formId'";
+        mysqli_query($conn,$query);
+      }
+      if (mysqli_affected_rows($conn) > 0) {
+        echo "Form Deleted";
       }
       else{
-      echo "Form is not deleted";
+        echo "Form is not deleted";
       }
     }  
   }

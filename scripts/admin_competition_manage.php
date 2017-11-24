@@ -30,7 +30,7 @@ else
 	<h1> Manage Competition</h1>
 			
 	<ul class="breadcrumb mb-0">
-		<li class="breadcrumb-item"><a href="<?php echo 'home.php' ?>">Home</a></li>
+		<li class="breadcrumb-item"><a href="<?php echo 'index.php' ?>">Home</a></li>
 		<li class="breadcrumb-item active">Manage Competition</li>
 	</ul>
 				
@@ -153,7 +153,7 @@ else
 					echo "<td class=\"text-center\">$display</td>";
 					echo "<td class=\"text-center\">$createdOn</td>";
 					echo "<td class=\"text-center\">";
-						echo "<a id=\"viewButton\" href=\"admin_competition_form_manage.php?id=$competitionId\" class=\"btn btn-secondary col-xl-4 text-center\">View</a> ";
+						echo "<a id=\"viewButton\" href=\"admin_competition_form_manage.php?id=$competitionId\" class=\"btn btn-secondary text-center\">View</a> ";
 					echo "</td>";
 					echo "</tr>";
 
