@@ -135,7 +135,15 @@ else if($_POST['task']=="cancel_entry"){
         mysqli_query($conn,$sql);
 
         if (mysqli_affected_rows($conn) > 0) {
-            echo "Entry is canceled";
+            $sqlDeleteAns = "DELETE FROM answer_participant WHERE participantId ='$participantId ';";
+            mysqli_query($conn,$sqlDeleteAns);
+
+            if (mysqli_affected_rows($conn) > 0) {
+                echo "Entry is canceled";
+            }
+            else {
+                echo "Entry is canceled.";
+            }
         }else {
             echo "error";
         }
