@@ -1,5 +1,3 @@
-<body>
-
 <div class="container">
 
 <?php 
@@ -51,6 +49,7 @@ if(isset($_GET['id'])){
 	$_SESSION['competitionTitle'] = $competitionTitle;
 	?>
 
+<body>
 	<!--Card-->
 	<div class="container mt-5">
 		<div id="message"><p class="text-danger">*Competition is currently ongoing, no changes are to be made</p></div>

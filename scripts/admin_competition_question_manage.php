@@ -1,5 +1,3 @@
-<body>
-
 <div class="container">
 
 <?php 
@@ -35,6 +33,7 @@ if(isset($_GET['id'])){
 	}
 	?>
 
+<body>
 	<!--Card-->
 	<div class="container mt-5">
 		<div id="message"><p class="text-danger">*Form is currently displayed, no changes are to be made</p></div>

@@ -1,6 +1,4 @@
 
-<body>
-
 <div class="container">
 
 <?php 
@@ -23,6 +21,8 @@ else
 ?>
 
 <!--Card-->
+<body>
+
 <div class="container mt-5">
 	<div id="messageOng"><p class="text-danger">*Competition is currently ongoing, no changes are to be made</p></div>
 	<div id="messageDateChange"><p class="text-danger">*Change the date to proceed</p></div>
