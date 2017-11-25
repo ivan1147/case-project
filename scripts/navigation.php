@@ -1,7 +1,62 @@
 <?php
 	include "database_conn.php";
 	session_start();
+
+	$sqlUpdateCompetitionStatus = "SELECT * FROM competition WHERE competitionId = 1";
+	$resultUpdateCompetitionStatus = mysqli_query($conn, $sqlUpdateCompetitionStatus);
+	$updateCompetitionStatusNumRows = mysqli_num_rows($resultUpdateCompetitionStatus);
+	if($updateCompetitionStatusNumRows > 0) {
+		$rowUpdateCompetitionStatus = mysqli_fetch_assoc($resultUpdateCompetitionStatus);
+		//getting current date and change dateTime format
+		date_default_timezone_set("Asia/Singapore");
+		$currentDateForUpdate = date('Y-m-d');
+		$displaystatusUpdateCompetitionStatus = $rowUpdateCompetitionStatus['display'];
+		$statusUpdateCompetitionStatus = $rowUpdateCompetitionStatus['status'];
+		$startDatestatusUpdateCompetitionStatus = $rowUpdateCompetitionStatus['startDate'];
+		$endDatestatusUpdateCompetitionStatus = $rowUpdateCompetitionStatus['endDate'];
+
+		if($displaystatusUpdateCompetitionStatus == "Y"){
+			if($currentDateForUpdate < $startDatestatusUpdateCompetitionStatus) {
+				$statusUpdateCompetitionStatus = "PEN";
+			}
+			else if(($currentDateForUpdate >= $startDatestatusUpdateCompetitionStatus) && ($currentDateForUpdate <= $endDatestatusUpdateCompetitionStatus))
+			{		echo $currentDateForUpdate;
+					$statusUpdateCompetitionStatus = "ONG";
+			}
+		}
+		else if ($displaystatusUpdateCompetitionStatus == "N"){
+			if($currentDateForUpdate < $startDatestatusUpdateCompetitionStatus){
+				$statusUpdateCompetitionStatus = "AVL";
+			}
+			else if(($currentDateForUpdate >= $startDatestatusUpdateCompetitionStatus) && ($currentDateForUpdate <= $endDatestatusUpdateCompetitionStatus)){
+				$statusUpdateCompetitionStatus = "UVL";
+			}
+		}
+
+		// After end date, status and display data will be changed
+		if($currentDateForUpdate > $endDatestatusUpdateCompetitionStatus){
+			$displaystatusUpdateCompetitionStatus = "N";
+
+			//update display data
+			$sqlDisplayUpdateCompetitionStatus = "UPDATE competition SET display = ? ";
+			$stmt = mysqli_prepare($conn, $sqlDisplayUpdateCompetitionStatus);
+			mysqli_stmt_bind_param($stmt, "s", $displaystatusUpdateCompetitionStatus); 
+			mysqli_stmt_execute($stmt);
+			mysqli_stmt_close($stmt);
+
+			//assign status and display string									
+			$statusUpdateCompetitionStatus = "END";
+		
+		}
 	
+		//update status data
+		$sqlStatusUpdateCompetitionStatus = "UPDATE competition SET status = ? ";
+		$stmt = mysqli_prepare($conn, $sqlStatusUpdateCompetitionStatus);
+		mysqli_stmt_bind_param($stmt, "s", $statusUpdateCompetitionStatus); 
+		mysqli_stmt_execute($stmt);
+		mysqli_stmt_close($stmt);
+	}
+
 	if(isset($_POST['birthSub']))
 	{
 		 $day = $_POST['userDay'];

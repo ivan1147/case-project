@@ -56,64 +56,15 @@ else
 				//declaring count for index 
 				$count = 1;
 							
-				//echo $currentDate;
 				while($row = mysqli_fetch_assoc($result)){
 					$competitionId = $row["competitionId"];
 					$title = $row["title"];
 					$startDate = $row["startDate"];
 					$endDate = $row["endDate"];
-					$status = " ";	
+					$status = $row["status"];;	
 					$display = $row["display"];				
 					$createdOn = $row["createdOn"];			
-								
-					//getting current date and change dateTime format
-					date_default_timezone_set("Asia/Singapore");
-					$currentDate = date('Y-m-d');
-								
-					//Assigning status based on date
-					if ($display == "Y") {
-						$display = "Yes";
-						if($currentDate < $startDate) {
-							$status = "PEN";
-						}
-						else if(($currentDate >= $startDate) && ($currentDate <= $endDate))
-						{
-							$status = "ONG";
-						}
-					}
-					else if ($display == 'N'){
-						$display = "No";
-						if($currentDate < $startDate){
-							$status = "AVL";
-						}
-						else if(($currentDate >= $startDate) && ($currentDate <= $endDate)){
-							$status = "UVL";
-						}
-					}
-
-					// After end date, status and display data will be changed
-					if($currentDate > $endDate){
-						$display = "N";
-
-						//update display data
-						$sqlDisplay = "UPDATE competition SET display = ? WHERE competitionId = ?";
-						$stmt = mysqli_prepare($conn, $sqlDisplay);
-						mysqli_stmt_bind_param($stmt, "si", $display, $competitionId); 
-						mysqli_stmt_execute($stmt);
-						mysqli_stmt_close($stmt);
-
-						//assign status and display string									
-						$display = "No";
-						$status = "END";
-					}
-
-					//update status data
-					$sqlStatus = "UPDATE competition SET status = ? WHERE competitionId = ?";
-					$stmt = mysqli_prepare($conn, $sqlStatus);
-					mysqli_stmt_bind_param($stmt, "si", $status, $competitionId); 
-					mysqli_stmt_execute($stmt);
-					mysqli_stmt_close($stmt);
-
+														
 					//Assigning title string
 					if ($title == "10to13" ){
 						$title = "Age 10 - 13";
@@ -140,6 +91,14 @@ else
 					}
 					else if($status == "END"){
 						$status = "Ended";
+					}
+
+					//Assigning display string
+					if($display == "Y"){
+						$display = "Yes";
+					}
+					else if($display == "N"){
+						$display = "No";
 					}
 
 					//Display table data
