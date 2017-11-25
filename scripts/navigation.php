@@ -20,8 +20,8 @@
 				$statusUpdateCompetitionStatus = "PEN";
 			}
 			else if(($currentDateForUpdate >= $startDatestatusUpdateCompetitionStatus) && ($currentDateForUpdate <= $endDatestatusUpdateCompetitionStatus))
-			{		
-					$statusUpdateCompetitionStatus = "ONG";
+			{
+				$statusUpdateCompetitionStatus = "ONG";
 			}
 		}
 		else if ($displaystatusUpdateCompetitionStatus == "N"){
@@ -252,16 +252,6 @@
 		<ul class='navbar-nav ml-auto'>	
 			<li class='nav-item dropdown'>
 				<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-				  Notification
-				</a>
-				<div class='dropdown-menu dropdown-menu-right pl-2 pr-2' aria-labelledby='navbarDropdownMenuLink' style='width: 300px'>
-					<h5>Competition</h5>
-					<hr>
-					<p>Congratulations! You are the winner of 1st Grade Form</p>
-				</div>
-			</li>
-			<li class='nav-item dropdown'>
-				<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
 				  Option
 				</a>
 				<div class='dropdown-menu dropdown-menu-right' aria-labelledby='navbarDropdownMenuLink'>
@@ -305,16 +295,6 @@
 		<ul class='navbar-nav ml-auto'>	
 			<li class='nav-item dropdown'>
 				<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-				  Notification
-				</a>
-				<div class='dropdown-menu dropdown-menu-right pl-2 pr-2' aria-labelledby='navbarDropdownMenuLink' style='width: 300px'>
-					<h5>Competition</h5>
-					<hr>
-					<p>Congratulations! You are the winner of 1st Grade Form</p>
-				</div>
-			</li>
-			<li class='nav-item dropdown'>
-				<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
 				  Option
 				</a>
 				<div class='dropdown-menu dropdown-menu-right' aria-labelledby='navbarDropdownMenuLink'>
@@ -348,16 +328,6 @@
 		</ul>
 		
 		<ul class='navbar-nav ml-auto'>	
-			<li class='nav-item dropdown'>
-				<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-				  Notification
-				</a>
-				<div class='dropdown-menu dropdown-menu-right pl-2 pr-2' aria-labelledby='navbarDropdownMenuLink' style='width: 300px'>
-					<h5>Competition</h5>
-					<hr>
-					<p>Congratulations! You are the winner of 1st Grade Form</p>
-				</div>
-			</li>
 			<li class='nav-item dropdown'>
 				<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
 				  Option

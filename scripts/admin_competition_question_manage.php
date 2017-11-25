@@ -208,16 +208,45 @@ function close_dialog(){
 //Add Function
 function confirm_add(){
 	var data = $("#dialogBox #ajax_add").serialize();
-	$.ajax({
-		type:"POST",
-		url: "admin_competition_question_manage_ajax.php",
-		data: data+"&task=add_question",
-		success:function(html){
-			alert (html);
-			$( "#dialogBox" ).dialog( "close" );
-			location.reload();
-		} 
-	});	
+	var question =$("#question").val();
+	var typeForm = document.getElementById("typeForm");
+	var typeMul = document.getElementById("typeMul");
+	var answerForm =$("#answerForm").val();
+	var answerMul1C =$("#answerMul1C").val();
+	var answerMul2 = document.getElementsByName("answerMul2")[0].value;
+	var answerMul3 = document.getElementsByName("answerMul3")[0].value;
+	var answerMul4 = document.getElementsByName("answerMul4")[0].value;
+	if(question == '') {
+		alert("Please fill in question");
+	}
+	else if(typeForm.checked && answerForm == ''){
+		alert("Please fill in answer");
+		
+	}
+	else if(typeMul.checked && answerMul1C == '') {
+		alert("Please fill in answers");
+	}
+	else if(typeMul.checked && answerMul2 == '') {
+		alert("Please fill in answers");
+	}
+	else if(typeMul.checked && answerMul3 == '') {
+		alert("Please fill in answers");
+	}
+	else if(typeMul.checked && answerMul4 == '') {
+		alert("Please fill in answers");
+	}
+	else {	
+		$.ajax({
+			type:"POST",
+			url: "admin_competition_question_manage_ajax.php",
+			data: data+"&task=add_question",
+			success:function(html){
+				alert (html);
+				$( "#dialogBox" ).dialog( "close" );
+				location.reload();
+			} 
+		});	
+	}
 }	
 
 //Edit Function
