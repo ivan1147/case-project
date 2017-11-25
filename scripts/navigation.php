@@ -20,7 +20,7 @@
 				$statusUpdateCompetitionStatus = "PEN";
 			}
 			else if(($currentDateForUpdate >= $startDatestatusUpdateCompetitionStatus) && ($currentDateForUpdate <= $endDatestatusUpdateCompetitionStatus))
-			{		echo $currentDateForUpdate;
+			{		
 					$statusUpdateCompetitionStatus = "ONG";
 			}
 		}
